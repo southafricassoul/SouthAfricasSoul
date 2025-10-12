@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-stone-900;
+  }
+}
+
+@layer utilities {
+  .text-cream-50 {
+    color: #fefdfb;
+  }
+
+  .text-cream-100 {
+    color: #fef8f3;
+  }
+
+  .bg-cream-50 {
+    background-color: #fefdfb;
+  }
+}
