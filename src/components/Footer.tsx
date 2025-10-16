@@ -77,7 +77,7 @@ export default function Footer() {
             <h4 className="text-lg font-bold mb-4 text-amber-400">Follow Us</h4>
             <div className="flex gap-3 mb-6">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/southafricassoul/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gradient-to-br from-pink-500 to-amber-500 rounded-full flex items-center justify-center hover:scale-110 transition-transform"
