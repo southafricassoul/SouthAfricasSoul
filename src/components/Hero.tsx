@@ -1,11 +1,21 @@
-import { ArrowRight, Leaf } from 'lucide-react';
+import { ArrowRight, Leaf, Search } from 'lucide-react';
+import { useState } from 'react';
 
 interface HeroProps {
   onShopClick: () => void;
-  onLearnClick: () => void;
+  onSearch: (query: string) => void;
 }
 
-export default function Hero({ onShopClick, onLearnClick }: HeroProps) {
+export default function Hero({ onShopClick, onSearch }: HeroProps) {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      onSearch(searchQuery);
+    }
+  };
+
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-emerald-900 via-emerald-800 to-stone-800">
       <div className="absolute inset-0 opacity-10">
@@ -31,19 +41,32 @@ export default function Hero({ onShopClick, onLearnClick }: HeroProps) {
           At SouthAfrica's Soul, we celebrate the power of our land. Discover herbal remedies, natural wellness, and the magic of reconnecting with our roots.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <form onSubmit={handleSearch} className="max-w-2xl mx-auto mb-8">
+          <div className="relative">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Find remedies for..."
+              className="w-full px-6 py-4 pl-14 rounded-full text-lg text-stone-800 bg-white/95 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-xl"
+            />
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 text-stone-400" />
+            <button
+              type="submit"
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-2 rounded-full font-semibold transition-colors"
+            >
+              Search
+            </button>
+          </div>
+        </form>
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
           <button
             onClick={onShopClick}
             className="group bg-amber-600 hover:bg-amber-700 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all transform hover:scale-105 flex items-center gap-2 shadow-xl"
           >
             Shop Now
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </button>
-          <button
-            onClick={onLearnClick}
-            className="bg-transparent border-2 border-cream-100 hover:bg-white/10 text-cream-100 px-8 py-4 rounded-full text-lg font-semibold transition-all"
-          >
-            Learn More
           </button>
         </div>
 
