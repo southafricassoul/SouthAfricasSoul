@@ -143,23 +143,23 @@ export default function Products({ onAddToCart }: ProductsProps) {
   };
 
   return (
-    <section id="products" className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-        <div className="text-center mb-8 sm:mb-12 md:mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-emerald-900 mb-3 sm:mb-4 px-2">Our Products</h2>
-          <div className="w-20 sm:w-24 h-1 bg-amber-600 mx-auto rounded-full mb-4 sm:mb-6" />
-          <p className="text-base sm:text-lg text-stone-600 max-w-2xl mx-auto px-4">
+    <section id="products" className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl sm:text-5xl font-bold text-emerald-900 mb-4">Our Products</h2>
+          <div className="w-24 h-1 bg-amber-600 mx-auto rounded-full mb-6" />
+          <p className="text-lg text-stone-600 max-w-2xl mx-auto">
             Explore our curated collection of indigenous remedies, organic skincare, and plants for your wellness journey
           </p>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3 md:gap-4 mb-8 sm:mb-10 md:mb-12 overflow-x-auto pb-3 sm:pb-4 scrollbar-hide">
-          <Filter className="w-4 h-4 sm:w-5 sm:h-5 text-stone-600 flex-shrink-0" />
+        <div className="flex items-center gap-4 mb-12 overflow-x-auto pb-4">
+          <Filter className="w-5 h-5 text-stone-600 flex-shrink-0" />
           {categories.map(cat => (
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full font-medium transition-all whitespace-nowrap text-xs sm:text-sm md:text-base ${
+              className={`px-6 py-2 rounded-full font-medium transition-all whitespace-nowrap ${
                 selectedCategory === cat.id
                   ? 'bg-emerald-700 text-white shadow-lg'
                   : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
@@ -170,35 +170,35 @@ export default function Products({ onAddToCart }: ProductsProps) {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {filteredProducts.map(product => (
             <div
               key={product.id}
               className="group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-stone-200"
             >
-              <div className={`h-40 sm:h-48 bg-gradient-to-br ${getProductGradient(product.category)} flex items-center justify-center relative overflow-hidden`}>
+              <div className={`h-48 bg-gradient-to-br ${getProductGradient(product.category)} flex items-center justify-center relative overflow-hidden`}>
                 <div className="absolute inset-0 opacity-20">
                   <div className="absolute inset-0" style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E")`,
                   }} />
                 </div>
-                <ShoppingBag className="w-16 h-16 sm:w-20 sm:h-20 text-white/80 group-hover:scale-110 transition-transform" />
+                <ShoppingBag className="w-20 h-20 text-white/80 group-hover:scale-110 transition-transform" />
               </div>
 
-              <div className="p-4 sm:p-6">
-                <h3 className="text-lg sm:text-xl font-bold text-emerald-900 mb-1.5 sm:mb-2 group-hover:text-emerald-700 transition-colors">
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-emerald-900 mb-2 group-hover:text-emerald-700 transition-colors">
                   {product.name}
                 </h3>
-                <p className="text-stone-600 text-xs sm:text-sm mb-3 sm:mb-4 leading-relaxed">
+                <p className="text-stone-600 text-sm mb-4 leading-relaxed">
                   {product.description}
                 </p>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-xl sm:text-2xl font-bold text-amber-700">
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl font-bold text-amber-700">
                     R{product.price}
                   </span>
                   <button
                     onClick={() => onAddToCart(product)}
-                    className="bg-emerald-700 hover:bg-emerald-800 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium transition-all transform hover:scale-105 text-xs sm:text-sm whitespace-nowrap"
+                    className="bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-lg font-medium transition-all transform hover:scale-105"
                   >
                     Add to Cart
                   </button>

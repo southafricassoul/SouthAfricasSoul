@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import FindRemedies from './components/FindRemedies';
-import FeaturedShop from './components/FeaturedShop';
-import PlantLibrarySection from './components/PlantLibrarySection';
-import EducationHub from './components/EducationHub';
 import About from './components/About';
 import Products from './components/Products';
 import Workshops from './components/Workshops';
@@ -17,37 +13,12 @@ import type { CartItem, Product } from './types';
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [currentSection, setCurrentSection] = useState('home');
 
-  const handleNavigate = (section: string) => {
-    setCurrentSection(section);
-
-    const sectionMap: Record<string, string> = {
-      'home': 'home',
-      'shop-powders-teas': 'products',
-      'shop-oils': 'products',
-      'shop-kits': 'products',
-      'shop-beauty': 'products',
-      'shop-ebooks': 'products',
-      'shop-gifts': 'products',
-      'community-events': 'workshops',
-      'blog-african-healing': 'blog',
-      'blog-folklore': 'blog',
-      'blog-seasonal': 'blog',
-      'contact-form': 'contact',
-      'contact-consultation': 'contact',
-    };
-
-    const targetId = sectionMap[section] || 'home';
-    const element = document.getElementById(targetId);
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
-  };
-
-  const handleSearch = (query: string) => {
-    console.log('Searching for:', query);
-    handleNavigate('find-remedies');
   };
 
   const handleAddToCart = (product: Product) => {
@@ -85,19 +56,14 @@ function App() {
       <Header
         cartCount={cartCount}
         onCartClick={() => setIsCartOpen(true)}
-        onNavigate={handleNavigate}
       />
 
       <main>
         <Hero
-          onShopClick={() => handleNavigate('shop-powders-teas')}
-          onSearch={handleSearch}
+          onShopClick={() => scrollToSection('products')}
+          onLearnClick={() => scrollToSection('about')}
         />
-        <FindRemedies onNavigate={handleNavigate} />
-        <FeaturedShop onNavigate={handleNavigate} />
         <About />
-        <PlantLibrarySection onNavigate={handleNavigate} />
-        <EducationHub onNavigate={handleNavigate} />
         <Products onAddToCart={handleAddToCart} />
         <Workshops />
         <Blog />
