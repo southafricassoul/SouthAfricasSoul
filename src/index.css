@@ -41,3 +41,9 @@
     display: none;
   }
 }
+/* Hide Bolt watermark */
+a[href*="bolt.new"],
+[class*="bolt-watermark"],
+[class*="powered-by"] {
+  display: none !important;
+}
