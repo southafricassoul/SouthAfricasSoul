@@ -3,19 +3,6 @@ export interface NavItem {
   href?: string;
   children?: NavItem[];
 }
-
-export const navigationData: NavItem[] = [
-  {
-    label: '🏠 Home',
-    href: '#home',
-  },
-  {
-    label: '📖 About',
-    children: [
-      { label: 'Our Story', href: '#our-story' },
-      { label: 'Mission & Philosophy', href: '#mission' },
-      { label: 'Contact', href: '#contact' },
-    ],
   },
   {
     label: '🛍️ Shop (Marketplace)',
