@@ -1,5 +1,7 @@
 import { ShoppingCart, Menu, X, Leaf } from 'lucide-react';
 import { useState } from 'react';
+import { navigationData } from '../lib/navigation';
+import DropdownMenu from './DropdownMenu';
 
 interface HeaderProps {
   cartCount: number;
@@ -17,6 +19,16 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
     }
   };
 
+  const MobileNav = () => (
+    <div className="md:hidden bg-white border-t border-stone-200">
+      <nav className="flex flex-col p-4 gap-2">
+        {navigationData.map((item) => (
+          <DropdownMenu key={item.label} item={item} />
+        ))}
+      </nav>
+    </div>
+  );
+
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,24 +42,9 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
           </div>
 
           <nav className="hidden md:flex items-center gap-8">
-            <button onClick={() => scrollToSection('home')} className="text-stone-700 hover:text-emerald-700 transition-colors font-medium">
-              Home
-            </button>
-            <button onClick={() => scrollToSection('about')} className="text-stone-700 hover:text-emerald-700 transition-colors font-medium">
-              About
-            </button>
-            <button onClick={() => scrollToSection('products')} className="text-stone-700 hover:text-emerald-700 transition-colors font-medium">
-              Products
-            </button>
-            <button onClick={() => scrollToSection('workshops')} className="text-stone-700 hover:text-emerald-700 transition-colors font-medium">
-              Workshops
-            </button>
-            <button onClick={() => scrollToSection('blog')} className="text-stone-700 hover:text-emerald-700 transition-colors font-medium">
-              Knowledge
-            </button>
-            <button onClick={() => scrollToSection('contact')} className="text-stone-700 hover:text-emerald-700 transition-colors font-medium">
-              Contact
-            </button>
+            {navigationData.map((item) => (
+              <DropdownMenu key={item.label} item={item} />
+            ))}
             <button
               onClick={onCartClick}
               className="relative p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors"
@@ -83,30 +80,7 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
         </div>
       </div>
 
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-stone-200">
-          <nav className="flex flex-col p-4 gap-2">
-            <button onClick={() => scrollToSection('home')} className="text-left py-2 px-4 text-stone-700 hover:bg-emerald-50 rounded transition-colors">
-              Home
-            </button>
-            <button onClick={() => scrollToSection('about')} className="text-left py-2 px-4 text-stone-700 hover:bg-emerald-50 rounded transition-colors">
-              About
-            </button>
-            <button onClick={() => scrollToSection('products')} className="text-left py-2 px-4 text-stone-700 hover:bg-emerald-50 rounded transition-colors">
-              Products
-            </button>
-            <button onClick={() => scrollToSection('workshops')} className="text-left py-2 px-4 text-stone-700 hover:bg-emerald-50 rounded transition-colors">
-              Workshops
-            </button>
-            <button onClick={() => scrollToSection('blog')} className="text-left py-2 px-4 text-stone-700 hover:bg-emerald-50 rounded transition-colors">
-              Knowledge
-            </button>
-            <button onClick={() => scrollToSection('contact')} className="text-left py-2 px-4 text-stone-700 hover:bg-emerald-50 rounded transition-colors">
-              Contact
-            </button>
-          </nav>
-        </div>
-      )}
+      {mobileMenuOpen && <MobileNav />}
     </header>
   );
 }
