@@ -1,8 +1,4 @@
 export const navigationData = {
-  home: {
-    label: '🏠 Home',
-    href: '/',
-  },
   about: {
     label: '📖 About',
     href: '/about',
