@@ -1,11 +1,6 @@
 import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import About from './components/About';
-import Products from './components/Products';
-import Workshops from './components/Workshops';
-import Blog from './components/Blog';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Cart from './components/Cart';
 import type { CartItem, Product } from './types';
@@ -13,13 +8,6 @@ import type { CartItem, Product } from './types';
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   const handleAddToCart = (product: Product) => {
     setCartItems(prevItems => {
@@ -59,15 +47,7 @@ function App() {
       />
 
       <main>
-        <Hero
-          onShopClick={() => scrollToSection('products')}
-          onLearnClick={() => scrollToSection('about')}
-        />
-        <About />
-        <Products onAddToCart={handleAddToCart} />
-        <Workshops />
-        <Blog />
-        <Contact />
+        <Outlet context={{ handleAddToCart }} />
       </main>
 
       <Footer />
