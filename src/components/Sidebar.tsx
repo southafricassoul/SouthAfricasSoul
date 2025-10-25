@@ -1,6 +1,6 @@
 import { X, ChevronLeft } from 'lucide-react';
 import { navigationData, NavigationItem } from '../lib/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 interface SidebarProps {
@@ -10,6 +10,12 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const [history, setHistory] = useState<NavigationItem[][]>([navigationData]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setHistory([navigationData]);
+    }
+  }, [isOpen]);
 
   const currentLevelItems = history[history.length - 1];
   const canGoBack = history.length > 1;
@@ -24,8 +30,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   const handleNavigate = () => {
     onClose();
-    // Reset history for next open
-    setTimeout(() => setHistory([navigationData]), 300);
   };
 
   const renderMenuItem = (item: NavigationItem) => (

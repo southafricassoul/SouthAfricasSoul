@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -52,6 +52,32 @@ function App() {
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
+  useEffect(() => {
+    const handlePopState = () => {
+      // Any popstate event should close the menu if it's open.
+      setIsMenuOpen(false);
+    };
+
+    if (isMenuOpen) {
+      // Add a custom state to the history when the menu opens, so the back button works.
+      window.history.pushState({ menu: 'open' }, '');
+      window.addEventListener('popstate', handlePopState);
+    } else {
+      // If the menu is closed manually, and our custom state is still in history, go back.
+      if (window.history.state?.menu === 'open') {
+        window.history.back();
+      }
+    }
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isMenuOpen]);
+
+  const handleMenuClose = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-cream-50">
       <Header
@@ -62,7 +88,7 @@ function App() {
 
       <Sidebar
         isOpen={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
+        onClose={handleMenuClose}
       />
 
       <Routes>
