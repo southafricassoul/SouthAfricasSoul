@@ -1,32 +1,17 @@
-import { ShoppingCart, Menu, X, Leaf } from 'lucide-react';
-import { useState } from 'react';
-import { navigationData } from '../lib/navigation';
-import DropdownMenu from './DropdownMenu';
+import { ShoppingCart, Menu, Leaf } from 'lucide-react';
 
 interface HeaderProps {
   cartCount: number;
   onCartClick: () => void;
+  onMenuClick: () => void; // This will be used to toggle the sidebar
 }
 
-export default function Header({ cartCount, onCartClick }: HeaderProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const handleNavigation = () => {
-    setMobileMenuOpen(false); // Close mobile menu on any navigation
-  };
-
-  const MobileNav = () => (
-    <div className="md:hidden bg-white border-t border-stone-200">
-      <nav className="flex flex-col p-4 gap-2">
-        <DropdownMenu items={navigationData} onNavigate={handleNavigation} />
-      </nav>
-    </div>
-  );
-
+export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderProps) {
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
+          {/* Logo and Site Title */}
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => (window.location.href = '/')}>
             <Leaf className="w-8 h-8 text-emerald-700" />
             <div>
@@ -35,11 +20,13 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
             </div>
           </div>
 
-          <nav className="hidden md:flex items-center gap-4">
-            <DropdownMenu items={navigationData} onNavigate={handleNavigation} />
+          {/* Right-side controls */}
+          <div className="flex items-center gap-2">
+            {/* Cart Button */}
             <button
               onClick={onCartClick}
               className="relative p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors"
+              aria-label="Open cart"
             >
               <ShoppingCart className="w-6 h-6" />
               {cartCount > 0 && (
@@ -48,31 +35,18 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
                 </span>
               )}
             </button>
-          </nav>
 
-          <div className="flex md:hidden items-center gap-4">
+            {/* Menu Button (for sidebar) */}
             <button
-              onClick={onCartClick}
-              className="relative p-2 text-emerald-700"
+              onClick={onMenuClick}
+              className="p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors"
+              aria-label="Open menu"
             >
-              <ShoppingCart className="w-6 h-6" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-amber-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
-            </button>
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-emerald-700"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              <Menu className="w-6 h-6" />
             </button>
           </div>
         </div>
       </div>
-
-      {mobileMenuOpen && <MobileNav />}
     </header>
   );
 }

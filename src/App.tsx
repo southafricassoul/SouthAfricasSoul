@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Cart from './components/Cart';
+import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ShopPage from './pages/ShopPage';
@@ -21,6 +22,7 @@ import type { CartItem, Product } from './types';
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for the new sidebar
 
   const handleAddToCart = (product: Product) => {
     setCartItems(prevItems => {
@@ -55,6 +57,12 @@ function App() {
       <Header
         cartCount={cartCount}
         onCartClick={() => setIsCartOpen(true)}
+        onMenuClick={() => setIsMenuOpen(true)}
+      />
+
+      <Sidebar
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
       />
 
       <Routes>
