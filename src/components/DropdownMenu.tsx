@@ -1,56 +1,95 @@
-import { NavItem } from '@/lib/navigation';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
-import { useState } from 'react';
+
+interface MenuItem {
+  label: string;
+  href?: string;
+  children?: MenuItem[];
+}
 
 interface DropdownMenuProps {
-  item: NavItem;
-  level?: number;
+  items: Record<string, MenuItem>;
+  onNavigate: () => void;
 }
 
-export default function DropdownMenu({ item, level = 0 }: DropdownMenuProps) {
+const DropdownMenuItem: React.FC<{ item: MenuItem; onNavigate: () => void; level?: number }> = ({ item, onNavigate, level = 0 }) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const node = useRef<HTMLLIElement>(null);
   const hasChildren = item.children && item.children.length > 0;
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id.substring(1));
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (node.current && !node.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsOpen(!isOpen);
   };
 
-  const handleClick = (e: React.MouseEvent) => {
-    if (item.href) {
-      e.preventDefault();
-      scrollToSection(item.href);
-      setIsOpen(false);
-    } else if (hasChildren) {
-      setIsOpen(!isOpen);
-    }
+  const handleLinkClick = () => {
+    onNavigate();
+    setIsOpen(false);
   };
+
+  const menuPositionClass = level === 0
+    ? "md:absolute md:left-0 md:top-full" // First level dropdown
+    : "md:absolute md:left-full md:top-0"; // Nested dropdowns
 
   return (
-    <div className="relative" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-      <button
-        onClick={handleClick}
-        className="flex items-center gap-1 text-stone-700 hover:text-emerald-700 transition-colors font-medium w-full text-left"
-      >
-        {item.label}
-        {hasChildren && <ChevronDown className="w-4 h-4" />}
-      </button>
-      {isOpen && hasChildren && (
-        <div
-          className={`absolute ${
-            level === 0 ? 'left-0' : 'left-full top-0'
-          } mt-2 bg-white border border-stone-200 rounded-md shadow-lg z-10`}
-        >
-          <div className="py-1">
-            {item.children?.map((child) => (
-              <DropdownMenu key={child.label} item={child} level={level + 1} />
-            ))}
-          </div>
-        </div>
+    <li ref={node} className="relative">
+      <div className="flex items-center justify-between group">
+        {item.href ? (
+          <Link
+            to={item.href}
+            onClick={handleLinkClick}
+            className="px-3 py-2 text-sm text-stone-700 hover:bg-stone-100 rounded-md transition-colors w-full text-left"
+          >
+            {item.label}
+          </Link>
+        ) : (
+          <span className="px-3 py-2 text-sm text-stone-700 w-full text-left cursor-default">
+            {item.label}
+          </span>
+        )}
+        {hasChildren && (
+          <button
+            onClick={handleToggle}
+            className="p-1 text-stone-500 hover:bg-stone-100 rounded-md"
+            data-testid={`menu-button-${item.label}`}
+          >
+            <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+          </button>
+        )}
+      </div>
+      {hasChildren && isOpen && (
+        <ul className={`mt-1 w-56 bg-white shadow-lg rounded-md border border-stone-200 z-10 ${level === 0 ? '' : 'ml-1'}`}>
+          {item.children?.map((child) => (
+            <DropdownMenuItem key={child.label} item={child} onNavigate={onNavigate} level={level + 1} />
+          ))}
+        </ul>
       )}
-    </div>
+    </li>
   );
-}
+};
+
+const DropdownMenu: React.FC<DropdownMenuProps> = ({ items, onNavigate }) => {
+  return (
+    <nav className="hidden md:flex items-center gap-1">
+       {Object.values(items).map((item) => (
+         <DropdownMenuItem key={item.label} item={item} onNavigate={onNavigate} />
+       ))}
+    </nav>
+  );
+};
+
+export default DropdownMenu;

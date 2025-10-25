@@ -11,20 +11,14 @@ interface HeaderProps {
 export default function Header({ cartCount, onCartClick }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setMobileMenuOpen(false);
-    }
+  const handleNavigation = () => {
+    setMobileMenuOpen(false); // Close mobile menu on any navigation
   };
 
   const MobileNav = () => (
     <div className="md:hidden bg-white border-t border-stone-200">
       <nav className="flex flex-col p-4 gap-2">
-        {navigationData.map((item) => (
-          <DropdownMenu key={item.label} item={item} />
-        ))}
+        <DropdownMenu items={navigationData} onNavigate={handleNavigation} />
       </nav>
     </div>
   );
@@ -33,7 +27,7 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => scrollToSection('home')}>
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => (window.location.href = '/')}>
             <Leaf className="w-8 h-8 text-emerald-700" />
             <div>
               <h1 className="text-2xl font-bold text-emerald-900">SouthAfrica's Soul</h1>
@@ -41,10 +35,8 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
             </div>
           </div>
 
-          <nav className="hidden md:flex items-center gap-8">
-            {navigationData.map((item) => (
-              <DropdownMenu key={item.label} item={item} />
-            ))}
+          <nav className="hidden md:flex items-center gap-4">
+            <DropdownMenu items={navigationData} onNavigate={handleNavigation} />
             <button
               onClick={onCartClick}
               className="relative p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors"
