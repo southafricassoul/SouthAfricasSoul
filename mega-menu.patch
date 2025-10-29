@@ -1,0 +1,1176 @@
+diff --git a/jules-scratch/verification/menu_closed.png b/jules-scratch/verification/menu_closed.png
+new file mode 100644
+index 0000000..b09fdf8
+Binary files /dev/null and b/jules-scratch/verification/menu_closed.png differ
+diff --git a/jules-scratch/verification/menu_reset.png b/jules-scratch/verification/menu_reset.png
+new file mode 100644
+index 0000000..b648014
+Binary files /dev/null and b/jules-scratch/verification/menu_reset.png differ
+diff --git a/jules-scratch/verification/submenu.png b/jules-scratch/verification/submenu.png
+new file mode 100644
+index 0000000..3f98557
+Binary files /dev/null and b/jules-scratch/verification/submenu.png differ
+diff --git a/jules-scratch/verification/verify_mobile_menu.py b/jules-scratch/verification/verify_mobile_menu.py
+new file mode 100644
+index 0000000..ea7817b
+--- /dev/null
++++ b/jules-scratch/verification/verify_mobile_menu.py
+@@ -0,0 +1,39 @@
++from playwright.sync_api import sync_playwright, expect
++import re
++
++def run():
++    with sync_playwright() as p:
++        browser = p.chromium.launch(headless=True)
++        page = browser.new_page()
++        page.goto("http://localhost:5173")
++
++        # 1. Open the menu
++        page.get_by_label("Open menu").click()
++        sidebar = page.locator("div.bg-white.z-50")
++        expect(sidebar).to_be_visible()
++
++        # 2. Navigate into a submenu
++        page.get_by_role("button", name="Region and Traditions").click()
++        expect(page.get_by_role("button", name="Global Apothecary")).to_be_visible()
++
++        # Take a screenshot of the submenu
++        page.screenshot(path="jules-scratch/verification/submenu.png")
++
++        # 3. Use the browser's back button to close the menu
++        page.go_back()
++        # Wait for the closing animation class to be applied
++        expect(sidebar).to_have_class(re.compile(r"-translate-x-full"))
++
++        # 4. Take a screenshot to confirm the menu is closed
++        page.screenshot(path="jules-scratch/verification/menu_closed.png")
++
++        # 5. Reopen the menu
++        page.get_by_label("Open menu").click()
++        expect(sidebar).not_to_have_class(re.compile(r"-translate-x-full"))
++
++        # 6. Take another screenshot to confirm the menu has reset
++        page.screenshot(path="jules-scratch/verification/menu_reset.png")
++
++        browser.close()
++
++run()
+diff --git a/package-lock.json b/package-lock.json
+index 0ca0d99..a5b0692 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -11,7 +11,8 @@
+         "@supabase/supabase-js": "^2.57.4",
+         "lucide-react": "^0.344.0",
+         "react": "^18.3.1",
+-        "react-dom": "^18.3.1"
++        "react-dom": "^18.3.1",
++        "react-router-dom": "^7.9.4"
+       },
+       "devDependencies": {
+         "@eslint/js": "^9.9.1",
+@@ -1944,6 +1945,15 @@
+       "integrity": "sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==",
+       "dev": true
+     },
++    "node_modules/cookie": {
++      "version": "1.0.2",
++      "resolved": "https://registry.npmjs.org/cookie/-/cookie-1.0.2.tgz",
++      "integrity": "sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA==",
++      "license": "MIT",
++      "engines": {
++        "node": ">=18"
++      }
++    },
+     "node_modules/cross-spawn": {
+       "version": "7.0.3",
+       "resolved": "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.3.tgz",
+@@ -3369,6 +3379,44 @@
+         "node": ">=0.10.0"
+       }
+     },
++    "node_modules/react-router": {
++      "version": "7.9.4",
++      "resolved": "https://registry.npmjs.org/react-router/-/react-router-7.9.4.tgz",
++      "integrity": "sha512-SD3G8HKviFHg9xj7dNODUKDFgpG4xqD5nhyd0mYoB5iISepuZAvzSr8ywxgxKJ52yRzf/HWtVHc9AWwoTbljvA==",
++      "license": "MIT",
++      "dependencies": {
++        "cookie": "^1.0.1",
++        "set-cookie-parser": "^2.6.0"
++      },
++      "engines": {
++        "node": ">=20.0.0"
++      },
++      "peerDependencies": {
++        "react": ">=18",
++        "react-dom": ">=18"
++      },
++      "peerDependenciesMeta": {
++        "react-dom": {
++          "optional": true
++        }
++      }
++    },
++    "node_modules/react-router-dom": {
++      "version": "7.9.4",
++      "resolved": "https://registry.npmjs.org/react-router-dom/-/react-router-dom-7.9.4.tgz",
++      "integrity": "sha512-f30P6bIkmYvnHHa5Gcu65deIXoA2+r3Eb6PJIAddvsT9aGlchMatJ51GgpU470aSqRRbFX22T70yQNUGuW3DfA==",
++      "license": "MIT",
++      "dependencies": {
++        "react-router": "7.9.4"
++      },
++      "engines": {
++        "node": ">=20.0.0"
++      },
++      "peerDependencies": {
++        "react": ">=18",
++        "react-dom": ">=18"
++      }
++    },
+     "node_modules/read-cache": {
+       "version": "1.0.0",
+       "resolved": "https://registry.npmjs.org/read-cache/-/read-cache-1.0.0.tgz",
+@@ -3501,6 +3549,12 @@
+         "semver": "bin/semver.js"
+       }
+     },
++    "node_modules/set-cookie-parser": {
++      "version": "2.7.1",
++      "resolved": "https://registry.npmjs.org/set-cookie-parser/-/set-cookie-parser-2.7.1.tgz",
++      "integrity": "sha512-IOc8uWeOZgnb3ptbCURJWNjWUPcO3ZnTTdzsurqERrP6nPyv+paC55vJM0LpOlT2ne+Ix+9+CRG1MNLlyZ4GjQ==",
++      "license": "MIT"
++    },
+     "node_modules/shebang-command": {
+       "version": "2.0.0",
+       "resolved": "https://registry.npmjs.org/shebang-command/-/shebang-command-2.0.0.tgz",
+diff --git a/package.json b/package.json
+index da3a0e9..c37635c 100644
+--- a/package.json
++++ b/package.json
+@@ -14,7 +14,8 @@
+     "@supabase/supabase-js": "^2.57.4",
+     "lucide-react": "^0.344.0",
+     "react": "^18.3.1",
+-    "react-dom": "^18.3.1"
++    "react-dom": "^18.3.1",
++    "react-router-dom": "^7.9.4"
+   },
+   "devDependencies": {
+     "@eslint/js": "^9.9.1",
+diff --git a/src/App.tsx b/src/App.tsx
+index 2562b82..4016e3d 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -1,30 +1,32 @@
+-import { useState } from 'react';
++import { useState, useEffect } from 'react';
++import { Routes, Route } from 'react-router-dom';
+ import Header from './components/Header';
+-import Hero from './components/Hero';
+-import About from './components/About';
+-import Products from './components/Products';
+-import Workshops from './components/Workshops';
+-import Blog from './components/Blog';
+-import Contact from './components/Contact';
+ import Footer from './components/Footer';
+ import Cart from './components/Cart';
++import Sidebar from './components/Sidebar';
++import HomePage from './pages/HomePage';
++import AboutPage from './pages/AboutPage';
++import ShopPage from './pages/ShopPage';
++import RegionAndTraditionsPage from './pages/RegionAndTraditionsPage';
++import GlobalHomeopathyAyurvedaPage from './pages/GlobalHomeopathyAyurvedaPage';
++import NaturalIngredientsOilsPage from './pages/NaturalIngredientsOilsPage';
++import AromatherapyMassagePage from './pages/AromatherapyMassagePage';
++import BenefitsPage from './pages/BenefitsPage';
++import DiyRecipesPage from './pages/DiyRecipesPage';
++import EducationHubPage from './pages/EducationHubPage';
++import NutritionWellnessPage from './pages/NutritionWellnessPage';
++import MindSpiritPage from './pages/MindSpiritPage';
++import CommunityLearningPage from './pages/CommunityLearningPage';
+ import type { CartItem, Product } from './types';
+
+ function App() {
+   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+   const [isCartOpen, setIsCartOpen] = useState(false);
+-
+-  const scrollToSection = (id: string) => {
+-    const element = document.getElementById(id);
+-    if (element) {
+-      element.scrollIntoView({ behavior: 'smooth' });
+-    }
+-  };
++  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for the new sidebar
+
+   const handleAddToCart = (product: Product) => {
+     setCartItems(prevItems => {
+       const existingItem = prevItems.find(item => item.id === product.id);
+-
+       if (existingItem) {
+         return prevItems.map(item =>
+           item.id === product.id
+@@ -32,7 +34,6 @@ function App() {
+             : item
+         );
+       }
+-
+       return [...prevItems, { ...product, quantity: 1 }];
+     });
+   };
+@@ -51,24 +52,60 @@ function App() {
+
+   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
++  useEffect(() => {
++    const handlePopState = () => {
++      // Any popstate event should close the menu if it's open.
++      setIsMenuOpen(false);
++    };
++
++    if (isMenuOpen) {
++      // Add a custom state to the history when the menu opens, so the back button works.
++      window.history.pushState({ menu: 'open' }, '');
++      window.addEventListener('popstate', handlePopState);
++    } else {
++      // If the menu is closed manually, and our custom state is still in history, go back.
++      if (window.history.state?.menu === 'open') {
++        window.history.back();
++      }
++    }
++
++    return () => {
++      window.removeEventListener('popstate', handlePopState);
++    };
++  }, [isMenuOpen]);
++
++  const handleMenuClose = () => {
++    setIsMenuOpen(false);
++  };
++
+   return (
+     <div className="min-h-screen bg-cream-50">
+       <Header
+         cartCount={cartCount}
+         onCartClick={() => setIsCartOpen(true)}
++        onMenuClick={() => setIsMenuOpen(true)}
++      />
++
++      <Sidebar
++        isOpen={isMenuOpen}
++        onClose={handleMenuClose}
+       />
+
+-      <main>
+-        <Hero
+-          onShopClick={() => scrollToSection('products')}
+-          onLearnClick={() => scrollToSection('about')}
+-        />
+-        <About />
+-        <Products onAddToCart={handleAddToCart} />
+-        <Workshops />
+-        <Blog />
+-        <Contact />
+-      </main>
++      <Routes>
++        <Route path="/" element={<HomePage onAddToCart={handleAddToCart} />} />
++        <Route path="/about" element={<AboutPage />} />
++        <Route path="/shop" element={<ShopPage />} />
++        <Route path="/region-and-traditions" element={<RegionAndTraditionsPage />} />
++        <Route path="/global-homeopathy-ayurveda" element={<GlobalHomeopathyAyurvedaPage />} />
++        <Route path="/natural-ingredients-oils" element={<NaturalIngredientsOilsPage />} />
++        <Route path="/aromatherapy-massage" element={<AromatherapyMassagePage />} />
++        <Route path="/benefits" element={<BenefitsPage />} />
++        <Route path="/diy-recipes" element={<DiyRecipesPage />} />
++        <Route path="/education-hub" element={<EducationHubPage />} />
++        <Route path="/nutrition-wellness" element={<NutritionWellnessPage />} />
++        <Route path="/mind-spirit" element={<MindSpiritPage />} />
++        <Route path="/community-learning" element={<CommunityLearningPage />} />
++      </Routes>
+
+       <Footer />
+
+diff --git a/src/components/Header.tsx b/src/components/Header.tsx
+index a078759..4fa8a4c 100644
+--- a/src/components/Header.tsx
++++ b/src/components/Header.tsx
+@@ -1,70 +1,44 @@
+-import { ShoppingCart, Menu, X, Leaf } from 'lucide-react';
+-import { useState } from 'react';
++import { ShoppingCart, Menu, Leaf } from 'lucide-react';
+
+ interface HeaderProps {
+   cartCount: number;
+   onCartClick: () => void;
++  onMenuClick: () => void; // This will be used to toggle the sidebar
+ }
+
+-export default function Header({ cartCount, onCartClick }: HeaderProps) {
+-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+-
+-  const scrollToSection = (id: string) => {
+-    const element = document.getElementById(id);
+-    if (element) {
+-      element.scrollIntoView({ behavior: 'smooth' });
+-      setMobileMenuOpen(false);
+-    }
+-  };
+-
++export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderProps) {
+   return (
+     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
+       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+-        <div className="flex justify-between items-center h-20">
+-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => scrollToSection('home')}>
+-            <Leaf className="w-8 h-8 text-emerald-700" />
+-            <div>
+-              <h1 className="text-2xl font-bold text-emerald-900">SouthAfrica's Soul</h1>
+-              <p className="text-xs text-amber-700 italic">Reconnect. Heal. Root Yourself.</p>
+-            </div>
+-          </div>
+-
+-          <nav className="hidden md:flex items-center gap-8">
+-            <button onClick={() => scrollToSection('home')} className="text-stone-700 hover:text-emerald-700 transition-colors font-medium">
+-              Home
+-            </button>
+-            <button onClick={() => scrollToSection('about')} className="text-stone-700 hover:text-emerald-700 transition-colors font-medium">
+-              About
+-            </button>
+-            <button onClick={() => scrollToSection('products')} className="text-stone-700 hover:text-emerald-700 transition-colors font-medium">
+-              Products
+-            </button>
+-            <button onClick={() => scrollToSection('workshops')} className="text-stone-700 hover:text-emerald-700 transition-colors font-medium">
+-              Workshops
+-            </button>
+-            <button onClick={() => scrollToSection('blog')} className="text-stone-700 hover:text-emerald-700 transition-colors font-medium">
+-              Knowledge
+-            </button>
+-            <button onClick={() => scrollToSection('contact')} className="text-stone-700 hover:text-emerald-700 transition-colors font-medium">
+-              Contact
+-            </button>
++        <div className="grid grid-cols-3 items-center h-20">
++          {/* Left Section: Menu Button */}
++          <div className="flex justify-start">
+             <button
+-              onClick={onCartClick}
+-              className="relative p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors"
++              onClick={onMenuClick}
++              className="p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors"
++              aria-label="Open menu"
+             >
+-              <ShoppingCart className="w-6 h-6" />
+-              {cartCount > 0 && (
+-                <span className="absolute -top-1 -right-1 bg-amber-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+-                  {cartCount}
+-                </span>
+-              )}
++              <Menu className="w-6 h-6" />
+             </button>
+-          </nav>
++          </div>
++
++          {/* Center Section: Logo and Site Title */}
++          <div className="flex justify-center">
++            <div className="flex items-center gap-2 cursor-pointer" onClick={() => (window.location.href = '/')}>
++              <Leaf className="w-8 h-8 text-emerald-700" />
++              <div>
++                <h1 className="text-2xl font-bold text-emerald-900">SouthAfrica's Soul</h1>
++                <p className="text-xs text-amber-700 italic">Reconnect. Heal. Root Yourself.</p>
++              </div>
++            </div>
++          </div>
+
+-          <div className="flex md:hidden items-center gap-4">
++          {/* Right Section: Cart Button */}
++          <div className="flex justify-end">
+             <button
+               onClick={onCartClick}
+-              className="relative p-2 text-emerald-700"
++              className="relative p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors"
++              aria-label="Open cart"
+             >
+               <ShoppingCart className="w-6 h-6" />
+               {cartCount > 0 && (
+@@ -73,40 +47,9 @@ export default function Header({ cartCount, onCartClick }: HeaderProps) {
+                 </span>
+               )}
+             </button>
+-            <button
+-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+-              className="p-2 text-emerald-700"
+-            >
+-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+-            </button>
+           </div>
+         </div>
+       </div>
+-
+-      {mobileMenuOpen && (
+-        <div className="md:hidden bg-white border-t border-stone-200">
+-          <nav className="flex flex-col p-4 gap-2">
+-            <button onClick={() => scrollToSection('home')} className="text-left py-2 px-4 text-stone-700 hover:bg-emerald-50 rounded transition-colors">
+-              Home
+-            </button>
+-            <button onClick={() => scrollToSection('about')} className="text-left py-2 px-4 text-stone-700 hover:bg-emerald-50 rounded transition-colors">
+-              About
+-            </button>
+-            <button onClick={() => scrollToSection('products')} className="text-left py-2 px-4 text-stone-700 hover:bg-emerald-50 rounded transition-colors">
+-              Products
+-            </button>
+-            <button onClick={() => scrollToSection('workshops')} className="text-left py-2 px-4 text-stone-700 hover:bg-emerald-50 rounded transition-colors">
+-              Workshops
+-            </button>
+-            <button onClick={() => scrollToSection('blog')} className="text-left py-2 px-4 text-stone-700 hover:bg-emerald-50 rounded transition-colors">
+-              Knowledge
+-            </button>
+-            <button onClick={() => scrollToSection('contact')} className="text-left py-2 px-4 text-stone-700 hover:bg-emerald-50 rounded transition-colors">
+-              Contact
+-            </button>
+-          </nav>
+-        </div>
+-      )}
+     </header>
+   );
+ }
+diff --git a/src/components/Sidebar.tsx b/src/components/Sidebar.tsx
+new file mode 100644
+index 0000000..3a952e4
+--- /dev/null
++++ b/src/components/Sidebar.tsx
+@@ -0,0 +1,95 @@
++import { X, ChevronLeft } from 'lucide-react';
++import { navigationData, NavigationItem } from '../lib/navigation';
++import { useState, useEffect } from 'react';
++import { Link } from 'react-router-dom';
++
++interface SidebarProps {
++  isOpen: boolean;
++  onClose: () => void;
++}
++
++export default function Sidebar({ isOpen, onClose }: SidebarProps) {
++  const [history, setHistory] = useState<NavigationItem[][]>([navigationData]);
++
++  useEffect(() => {
++    if (isOpen) {
++      setHistory([navigationData]);
++    }
++  }, [isOpen]);
++
++  const currentLevelItems = history[history.length - 1];
++  const canGoBack = history.length > 1;
++
++  const handleNextLevel = (items: NavigationItem[]) => {
++    setHistory([...history, items]);
++  };
++
++  const handleBack = () => {
++    setHistory(history.slice(0, -1));
++  };
++
++  const handleNavigate = () => {
++    onClose();
++  };
++
++  const renderMenuItem = (item: NavigationItem) => (
++    <li key={item.name} className="border-b border-stone-200">
++      {item.children ? (
++        <button
++          onClick={() => handleNextLevel(item.children!)}
++          className="w-full flex justify-between items-center p-4 text-lg text-stone-800 hover:bg-stone-100 transition-colors"
++        >
++          {item.name}
++          <span>&rarr;</span>
++        </button>
++      ) : (
++        <Link
++          to={item.href || '#'}
++          onClick={handleNavigate}
++          className="block p-4 text-lg text-stone-800 hover:bg-stone-100 transition-colors"
++        >
++          {item.name}
++        </Link>
++      )}
++    </li>
++  );
++
++  return (
++    <>
++      {/* Overlay */}
++      <div
++        className={`fixed inset-0 bg-black/50 z-50 transition-opacity duration-300 ${
++          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
++        }`}
++        onClick={onClose}
++      />
++
++      {/* Sidebar Panel */}
++      <div
++        className={`fixed top-0 left-0 h-full w-full max-w-md bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${
++          isOpen ? 'translate-x-0' : '-translate-x-full'
++        }`}
++      >
++        <div className="flex justify-between items-center p-4 border-b border-stone-300">
++          {canGoBack ? (
++            <button onClick={handleBack} className="p-2 text-stone-600 hover:text-black">
++              <ChevronLeft className="w-6 h-6" />
++            </button>
++          ) : (
++            <div /> // Placeholder for alignment
++          )}
++          <h2 className="text-xl font-semibold text-stone-800">Menu</h2>
++          <button onClick={onClose} className="p-2 text-stone-600 hover:text-black">
++            <X className="w-6 h-6" />
++          </button>
++        </div>
++
++        <div className="overflow-y-auto h-[calc(100vh-65px)]">
++          <ul className="divide-y divide-stone-200">
++            {currentLevelItems.map(renderMenuItem)}
++          </ul>
++        </div>
++      </div>
++    </>
++  );
++}
+diff --git a/src/lib/navigation.ts b/src/lib/navigation.ts
+new file mode 100644
+index 0000000..ea7e21a
+--- /dev/null
++++ b/src/lib/navigation.ts
+@@ -0,0 +1,312 @@
++export interface NavigationItem {
++  name: string;
++  href?: string;
++  children?: NavigationItem[];
++}
++
++export const navigationData: NavigationItem[] = [
++  {
++    name: '📖 About',
++    href: '/about',
++    children: [
++      { name: 'Our Story', href: '/about/our-story' },
++      { name: 'Mission & Philosophy', href: '/about/mission-philosophy' },
++      { name: 'Contact', href: '/about/contact' },
++    ],
++  },
++  {
++    name: '🛍️ Shop (Marketplace)',
++    href: '/shop',
++    children: [
++      { name: 'Herbal Blends & Teas', href: '/shop/herbal-blends-teas' },
++      { name: 'Oils (Essential & Carrier)', href: '/shop/oils' },
++      { name: 'Massage & Aromatherapy Kits', href: '/shop/massage-aromatherapy-kits' },
++      { name: 'DIY Kits', href: '/shop/diy-kits' },
++      { name: 'Digital Products (E-books, PDFs)', href: '/shop/digital-products' },
++    ],
++  },
++  {
++    name: '🌍 Region and Traditions',
++    href: '/region-and-traditions',
++    children: [
++      {
++        name: '🌎 Global Apothecary',
++        href: '/region/global-apothecary',
++        children: [
++          { name: 'European Folk Herbalism', href: '/region/global-apothecary/european-folk-herbalism' },
++          { name: 'Chinese Medicine (TCM)', href: '/region/global-apothecary/tcm' },
++          { name: 'Indigenous American', href: '/region/global-apothecary/indigenous-american' },
++          { name: 'Middle Eastern Herbalism', href: '/region/global-apothecary/middle-eastern-herbalism' },
++        ],
++      },
++      {
++        name: '🌍 African Herbal Apothecary',
++        href: '/region/african-apothecary',
++        children: [
++          {
++            name: 'History of African Herbalism',
++            href: '/region/african-apothecary/history',
++            children: [
++              { name: 'Origins and Cultural Lineage', href: '/region/african-apothecary/history/origins' },
++              { name: 'Indigenous Medicinal Evolution', href: '/region/african-apothecary/history/evolution' },
++            ],
++          },
++          {
++            name: 'African Healing Traditions by Region',
++            href: '/region/african-apothecary/traditions',
++            children: [
++              { name: 'Zulu Healing', href: '/region/african-apothecary/traditions/zulu' },
++              { name: 'Xhosa Healing', href: '/region/african-apothecary/traditions/xhosa' },
++              { name: 'Tswana & Sotho Healing', href: '/region/african-apothecary/traditions/tswana-sotho' },
++              { name: 'Yoruba Healing', href: '/region/african-apothecary/traditions/yoruba' },
++              { name: 'Ashanti & Akan Healing', href: '/region/african-apothecary/traditions/ashanti-akan' },
++              { name: 'Berber Healing', href: '/region/african-apothecary/traditions/berber' },
++              { name: 'Nubian Healing', href: '/region/african-apothecary/traditions/nubian' },
++              { name: 'Egyptian Healing', href: '/region/african-apothecary/traditions/egyptian' },
++              { name: 'Central & East African Healing', href: '/region/african-apothecary/traditions/central-east-african' },
++            ],
++          },
++          {
++            name: 'African Healing Tools & Rituals',
++            href: '/region/african-apothecary/tools',
++            children: [
++              { name: 'Implements, Ceremonial Cleansing, Divination Herbs, Smudge Traditions', href: '/region/african-apothecary/tools/implements' },
++              { name: 'Integration of Spirituality, Song, and Medicine', href: '/region/african-apothecary/tools/integration' },
++            ],
++          },
++        ],
++      },
++    ],
++  },
++  {
++    name: '🕉️ Global Homeopathy & Ayurveda',
++    href: '/global-homeopathy-ayurveda',
++    children: [
++      {
++        name: 'Homeopathy',
++        href: '/global-homeopathy-ayurveda/homeopathy',
++        children: [
++          { name: 'Principles of Homeopathy', href: '/global-homeopathy-ayurveda/homeopathy/principles' },
++          { name: 'Potency & Dilution Scales', href: '/global-homeopathy-ayurveda/homeopathy/potency-dilution' },
++          { name: 'Common Homeopathic Remedies', href: '/global-homeopathy-ayurveda/homeopathy/remedies' },
++          { name: 'African-Adapted Homeopathic Approaches', href: '/global-homeopathy-ayurveda/homeopathy/african-adapted' },
++        ],
++      },
++      {
++        name: 'Ayurveda',
++        href: '/global-homeopathy-ayurveda/ayurveda',
++        children: [
++          { name: 'The Three Doshas: Vata, Pitta, Kapha', href: '/global-homeopathy-ayurveda/ayurveda/doshas' },
++          { name: 'Ayurvedic Herbs & Spices', href: '/global-homeopathy-ayurveda/ayurveda/herbs-spices' },
++          { name: 'Herbal Formulations by Dosha', href: '/global-homeopathy-ayurveda/ayurveda/formulations' },
++          { name: 'Ayurvedic Oils & Body Treatments', href: '/global-homeopathy-ayurveda/ayurveda/oils-treatments' },
++          { name: 'Ayurvedic Massage (Abhyanga & Marma Therapy)', href: '/global-homeopathy-ayurveda/ayurveda/massage' },
++        ],
++      },
++    ],
++  },
++  {
++    name: '🌿 Natural Ingredients & Oils',
++    href: '/natural-ingredients-oils',
++    children: [
++      {
++        name: 'Plant Parts',
++        href: '/natural-ingredients-oils/plant-parts',
++        children: [
++          { name: 'Seeds', href: '/natural-ingredients-oils/plant-parts/seeds' },
++          { name: 'Roots', href: '/natural-ingredients-oils/plant-parts/roots' },
++          { name: 'Bark', href: '/natural-ingredients-oils/plant-parts/bark' },
++          { name: 'Leaves', href: '/natural-ingredients-oils/plant-parts/leaves' },
++          { name: 'Flowers', href: '/natural-ingredients-oils/plant-parts/flowers' },
++          { name: 'Fruit', href: '/natural-ingredients-oils/plant-parts/fruit' },
++          { name: 'Resin & Sap', href: '/natural-ingredients-oils/plant-parts/resin-sap' },
++        ],
++      },
++      {
++        name: 'Carrier Oils',
++        href: '/natural-ingredients-oils/carrier-oils',
++        children: [
++          { name: 'Sweet Almond Oil', href: '/natural-ingredients-oils/carrier-oils/sweet-almond' },
++          { name: 'Jojoba Oil', href: '/natural-ingredients-oils/carrier-oils/jojoba' },
++          { name: 'Coconut Oil', href: '/natural-ingredients-oils/carrier-oils/coconut' },
++          { name: 'Grapeseed Oil', href: '/natural-ingredients-oils/carrier-oils/grapeseed' },
++          { name: 'Argan Oil', href: '/natural-ingredients-oils/carrier-oils/argan' },
++          { name: 'Castor Oil', href: '/natural-ingredients-oils/carrier-oils/castor' },
++          { name: 'Avocado Oil', href: '/natural-ingredients-oils/carrier-oils/avocado' },
++          { name: 'Rosehip Seed Oil', href: '/natural-ingredients-oils/carrier-oils/rosehip-seed' },
++          { name: 'Hemp Seed Oil', href: '/natural-ingredients-oils/carrier-oils/hemp-seed' },
++          { name: 'Black Seed Oil', href: '/natural-ingredients-oils/carrier-oils/black-seed' },
++          { name: 'Tamanu Oil', href: '/natural-ingredients-oils/carrier-oils/tamanu' },
++        ],
++      },
++      {
++        name: 'Essential Oils',
++        href: '/natural-ingredients-oils/essential-oils',
++        children: [
++          { name: 'Lavender', href: '/natural-ingredients-oils/essential-oils/lavender' },
++          { name: 'Chamomile (Roman/German)', href: '/natural-ingredients-oils/essential-oils/chamomile' },
++          { name: 'Rose', href: '/natural-ingredients-oils/essential-oils/rose' },
++          { name: 'Jasmine', href: '/natural-ingredients-oils/essential-oils/jasmine' },
++          { name: 'Ylang Ylang', href: '/natural-ingredients-oils/essential-oils/ylang-ylang' },
++          { name: 'Geranium', href: '/natural-ingredients-oils/essential-oils/geranium' },
++          { name: 'Eucalyptus', href: '/natural-ingredients-oils/essential-oils/eucalyptus' },
++          { name: 'Peppermint', href: '/natural-ingredients-oils/essential-oils/peppermint' },
++          { name: 'Tea Tree', href: '/natural-ingredients-oils/essential-oils/tea-tree' },
++          { name: 'Rosemary', href: '/natural-ingredients-oils/essential-oils/rosemary' },
++          { name: 'Patchouli', href: '/natural-ingredients-oils/essential-oils/patchouli' },
++          { name: 'Frankincense', href: '/natural-ingredients-oils/essential-oils/frankincense' },
++          { name: 'Myrrh', href: '/natural-ingredients-oils/essential-oils/myrrh' },
++          { name: 'Sandalwood', href: '/natural-ingredients-oils/essential-oils/sandalwood' },
++          { name: 'Lemon', href: '/natural-ingredients-oils/essential-oils/lemon' },
++          { name: 'Orange (Sweet)', href: '/natural-ingredients-oils/essential-oils/orange' },
++          { name: 'Bergamot', href: '/natural-ingredients-oils/essential-oils/bergamot' },
++        ],
++      },
++    ],
++  },
++  {
++    name: '🌸 Aromatherapy & Massage Therapy',
++    href: '/aromatherapy-massage',
++    children: [
++      {
++        name: 'Aromatherapy',
++        href: '/aromatherapy-massage/aromatherapy',
++        children: [
++          { name: 'Principles of Aromatherapy', href: '/aromatherapy-massage/aromatherapy/principles' },
++          { name: 'Essential Oil Blending Guide', href: '/aromatherapy-massage/aromatherapy/blending-guide' },
++          { name: 'Diffusion & Inhalation Methods', href: '/aromatherapy-massage/aromatherapy/diffusion-inhalation' },
++          { name: 'Emotional & Energetic Healing', href: '/aromatherapy-massage/aromatherapy/emotional-healing' },
++          { name: 'Chakra & Mood Blends', href: '/aromatherapy-massage/aromatherapy/chakra-mood-blends' },
++          { name: 'Safety, Dilution & Contraindications', href: '/aromatherapy-massage/aromatherapy/safety' },
++        ],
++      },
++      {
++        name: 'Massage Therapy',
++        href: '/aromatherapy-massage/massage-therapy',
++        children: [
++          { name: 'Introduction to Therapeutic Massage', href: '/aromatherapy-massage/massage-therapy/introduction' },
++          {
++            name: 'Massage Techniques',
++            href: '/aromatherapy-massage/massage-therapy/techniques',
++            children: [
++              { name: 'Swedish Massage', href: '/aromatherapy-massage/massage-therapy/techniques/swedish' },
++              { name: 'Deep Tissue', href: '/aromatherapy-massage/massage-therapy/techniques/deep-tissue' },
++              { name: 'Lymphatic Drainage', href: '/aromatherapy-massage/massage-therapy/techniques/lymphatic-drainage' },
++              { name: 'Aromatherapy Massage', href: '/aromatherapy-massage/massage-therapy/techniques/aromatherapy' },
++              { name: 'Ayurvedic Massage (Abhyanga)', href: '/aromatherapy-massage/massage-therapy/techniques/ayurvedic' },
++            ],
++          },
++          { name: 'Massage Oil Recipes', href: '/aromatherapy-massage/massage-therapy/recipes' },
++          { name: 'Carrier & Essential Oil Synergies', href: '/aromatherapy-massage/massage-therapy/synergies' },
++          { name: 'Body-Mind Healing & Relaxation', href: '/aromatherapy-massage/massage-therapy/body-mind-healing' },
++        ],
++      },
++    ],
++  },
++  {
++    name: '💚 Benefits',
++    href: '/benefits',
++    children: [
++      {
++        name: 'Physical',
++        href: '/benefits/physical',
++        children: [
++          { name: 'Sleep Aid', href: '/benefits/physical/sleep-aid' },
++          { name: 'Energy & Vitality', href: '/benefits/physical/energy-vitality' },
++          { name: 'Weight Management', href: '/benefits/physical/weight-management' },
++          { name: 'Digestive & Gut Health', href: '/benefits/physical/digestive-gut-health' },
++          { name: 'Detox & Liver Health', href: '/benefits/physical/detox-liver-health' },
++          { name: 'Immunity Boost', href: '/benefits/physical/immunity-boost' },
++          {
++            name: 'Skin Health',
++            href: '/benefits/physical/skin-health',
++            children: [
++              { name: 'Dark Mark Removal', href: '/benefits/physical/skin-health/dark-mark-removal' },
++              { name: 'Anti-Aging', href: '/benefits/physical/skin-health/anti-aging' },
++              { name: '💧 Hydration & Nourishment', href: '/benefits/physical/skin-health/hydration-nourishment' },
++              { name: '🔥 Anti-Inflammatory & Soothing', href: '/benefits/physical/skin-health/anti-inflammatory-soothing' },
++              { name: '✨ Brightening & Anti-Aging', href: '/benefits/physical/skin-health/brightening-anti-aging' },
++              { name: '🧴 Cleansing, Astringent & Toning', href: '/benefits/physical/skin-health/cleansing-astringent-toning' },
++              { name: '💆‍♀️ Calming, Soothing & Aromatherapy', href: '/benefits/physical/skin-health/calming-soothing-aromatherapy' },
++              { name: '🦠 Antibacterial & Acne Support', href: '/benefits/physical/skin-health/antibacterial-acne-support' },
++            ],
++          },
++          { name: 'Hair Growth & Scalp Health', href: '/benefits/physical/hair-growth-scalp-health' },
++          { name: 'Pain Relief & Anti-Inflammatory', href: '/benefits/physical/pain-relief-anti-inflammatory' },
++          { name: 'Antimicrobial & Antiviral', href: '/benefits/physical/antimicrobial-antiviral' },
++          { name: 'Hormonal & Menstrual Health', href: '/benefits/physical/hormonal-menstrual-health' },
++          { name: 'Circulation & Cardiovascular', href: '/benefits/physical/circulation-cardiovascular' },
++          { name: 'Aphrodisiac / Libido Support', href: '/benefits/physical/aphrodisiac-libido-support' },
++          { name: 'Arousal & Performance', href: '/benefits/physical/arousal-performance' },
++        ],
++      },
++      {
++        name: 'Emotional & Mental Health',
++        href: '/benefits/emotional-mental-health',
++        children: [
++          { name: 'Stress Relief & Anxiety', href: '/benefits/emotional-mental-health/stress-relief-anxiety' },
++          { name: 'Focus & Memory', href: '/benefits/emotional-mental-health/focus-memory' },
++          { name: 'Emotional Balance', href: '/benefits/emotional-mental-health/emotional-balance' },
++          { name: 'Spiritual Grounding & Cleansing', href: '/benefits/emotional-mental-health/spiritual-grounding-cleansing' },
++        ],
++      },
++    ],
++  },
++  {
++    name: '🧪 DIY & Recipes',
++    href: '/diy-recipes',
++    children: [
++      { name: 'Homeopathy & Apothecary', href: '/diy-recipes/homeopathy-apothecary' },
++      { name: 'African Remedies', href: '/diy-recipes/african-remedies' },
++      { name: 'Global Remedies', href: '/diy-recipes/global-remedies' },
++      { name: 'Teas & Tonics', href: '/diy-recipes/teas-tonics' },
++      { name: 'Tinctures & Extracts', href: '/diy-recipes/tinctures-extracts' },
++      { name: 'Balms & Salves', href: '/diy-recipes/balms-salves' },
++      { name: 'Skin & Hair Recipes', href: '/diy-recipes/skin-hair-recipes' },
++      { name: 'Massage Oils & Body Blends', href: '/diy-recipes/massage-oils-body-blends' },
++      { name: 'Aromatherapy Blends', href: '/diy-recipes/aromatherapy-blends' },
++    ],
++  },
++  {
++    name: '📚 Education Hub',
++    href: '/education-hub',
++    children: [
++      { name: 'Safety & Dosage', href: '/education-hub/safety-dosage' },
++      { name: 'Mixing Charts (Oils & Blends)', href: '/education-hub/mixing-charts' },
++      { name: 'DIY Apothecary Tutorials', href: '/education-hub/diy-apothecary-tutorials' },
++      { name: 'Aromatherapy & Massage Certification Guides', href: '/education-hub/aromatherapy-massage-certification' },
++      { name: 'Homeopathic Basics', href: '/education-hub/homeopathic-basics' },
++      { name: 'Ayurvedic Principles', href: '/education-hub/ayurvedic-principles' },
++    ],
++  },
++  {
++    name: '🍃 Nutrition & Wellness',
++    href: '/nutrition-wellness',
++    children: [
++      { name: 'Herbal Nutrition', href: '/nutrition- wellness/herbal-nutrition' },
++      { name: 'Gut Health & Probiotics', href: '/nutrition-wellness/gut-health-probiotics' },
++      { name: 'Detox & Cleansing', href: '/nutrition-wellness/detox-cleansing' },
++      { name: 'Herbal Weight Management', href: '/nutrition-wellness/herbal-weight-management' },
++    ],
++  },
++  {
++    name: '🕊️ Mind & Spirit',
++    href: '/mind-spirit',
++    children: [
++      { name: 'Relaxation & Sleep', href: '/mind-spirit/relaxation-sleep' },
++      { name: 'Mood & Anxiety', href: '/mind-spirit/mood-anxiety' },
++      { name: 'Focus & Memory', href: 'mind-spirit/focus-memory' },
++      { name: 'Spiritual Cleansing', href: '/mind-spirit/spiritual-cleansing' },
++      { name: 'Energy & Chakra Balancing', href: '/mind-spirit/energy-chakra-balancing' },
++    ],
++  },
++  {
++    name: '🌐 Community & Learning',
++    href: '/community-learning',
++    children: [
++      { name: 'Forum / User Contributions', href: '/community-learning/forum' },
++      { name: 'Videos & Tutorials', href: '/community-learning/videos-tutorials' },
++      { name: 'Events & Workshops', href: '/community-learning/events-workshop' },
++    ],
++  },
++];
+diff --git a/src/main.tsx b/src/main.tsx
+index ea9e363..6eeea30 100644
+--- a/src/main.tsx
++++ b/src/main.tsx
+@@ -1,10 +1,13 @@
+ import { StrictMode } from 'react';
+ import { createRoot } from 'react-dom/client';
++import { BrowserRouter } from 'react-router-dom';
+ import App from './App.tsx';
+ import './index.css';
+
+ createRoot(document.getElementById('root')!).render(
+   <StrictMode>
+-    <App />
++    <BrowserRouter>
++      <App />
++    </BrowserRouter>
+   </StrictMode>
+ );
+diff --git a/src/pages/AboutPage.tsx b/src/pages/AboutPage.tsx
+new file mode 100644
+index 0000000..6496e9f
+--- /dev/null
++++ b/src/pages/AboutPage.tsx
+@@ -0,0 +1,14 @@
++import PageLayout from './PageLayout';
++
++const AboutPage = () => {
++  return (
++    <PageLayout>
++      <h1 className="text-3xl font-bold text-emerald-800">About Us</h1>
++      <p className="mt-4 text-lg text-stone-700">
++        This is the About page. Information about our story, mission, and philosophy will go here.
++      </p>
++    </PageLayout>
++  );
++};
++
++export default AboutPage;
+diff --git a/src/pages/AromatherapyMassagePage.tsx b/src/pages/AromatherapyMassagePage.tsx
+new file mode 100644
+index 0000000..38c93fd
+--- /dev/null
++++ b/src/pages/AromatherapyMassagePage.tsx
+@@ -0,0 +1,14 @@
++import PageLayout from './PageLayout';
++
++const AromatherapyMassagePage = () => {
++  return (
++    <PageLayout>
++      <h1 className="text-3xl font-bold text-emerald-800">Aromatherapy & Massage Therapy</h1>
++      <p className="mt-4 text-lg text-stone-700">
++        Explore the world of aromatherapy and learn about different massage techniques.
++      </p>
++    </PageLayout>
++  );
++};
++
++export default AromatherapyMassagePage;
+diff --git a/src/pages/BenefitsPage.tsx b/src/pages/BenefitsPage.tsx
+new file mode 100644
+index 0000000..bfbac97
+--- /dev/null
++++ b/src/pages/BenefitsPage.tsx
+@@ -0,0 +1,14 @@
++import PageLayout from './PageLayout';
++
++const BenefitsPage = () => {
++  return (
++    <PageLayout>
++      <h1 className="text-3xl font-bold text-emerald-800">Benefits</h1>
++      <p className="mt-4 text-lg text-stone-700">
++        Learn about the physical, emotional, and mental health benefits of our products.
++      </p>
++    </PageLayout>
++  );
++};
++
++export default BenefitsPage;
+diff --git a/src/pages/CommunityLearningPage.tsx b/src/pages/CommunityLearningPage.tsx
+new file mode 100644
+index 0000000..096a028
+--- /dev/null
++++ b/src/pages/CommunityLearningPage.tsx
+@@ -0,0 +1,14 @@
++import PageLayout from './PageLayout';
++
++const CommunityLearningPage = () => {
++  return (
++    <PageLayout>
++      <h1 className="text-3xl font-bold text-emerald-800">Community & Learning</h1>
++      <p className="mt-4 text-lg text-stone-700">
++        Join our community forum, watch tutorials, and find out about events.
++      </p>
++    </PageLayout>
++  );
++};
++
++export default CommunityLearningPage;
+diff --git a/src/pages/DiyRecipesPage.tsx b/src/pages/DiyRecipesPage.tsx
+new file mode 100644
+index 0000000..e2b6931
+--- /dev/null
++++ b/src/pages/DiyRecipesPage.tsx
+@@ -0,0 +1,14 @@
++import PageLayout from './PageLayout';
++
++const DiyRecipesPage = () => {
++  return (
++    <PageLayout>
++      <h1 className="text-3xl font-bold text-emerald-800">DIY & Recipes</h1>
++      <p className="mt-4 text-lg text-stone-700">
++        Find recipes and tutorials for making your own herbal remedies.
++      </p>
++    </PageLayout>
++  );
++};
++
++export default DiyRecipesPage;
+diff --git a/src/pages/EducationHubPage.tsx b/src/pages/EducationHubPage.tsx
+new file mode 100644
+index 0000000..ac68add
+--- /dev/null
++++ b/src/pages/EducationHubPage.tsx
+@@ -0,0 +1,14 @@
++import PageLayout from './PageLayout';
++
++const EducationHubPage = () => {
++  return (
++    <PageLayout>
++      <h1 className="text-3xl font-bold text-emerald-800">Education Hub</h1>
++      <p className="mt-4 text-lg text-stone-700">
++        Your resource for learning about safety, dosage, and more.
++      </p>
++    </PageLayout>
++  );
++};
++
++export default EducationHubPage;
+diff --git a/src/pages/GlobalHomeopathyAyurvedaPage.tsx b/src/pages/GlobalHomeopathyAyurvedaPage.tsx
+new file mode 100644
+index 0000000..fede601
+--- /dev/null
++++ b/src/pages/GlobalHomeopathyAyurvedaPage.tsx
+@@ -0,0 +1,14 @@
++import PageLayout from './PageLayout';
++
++const GlobalHomeopathyAyurvedaPage = () => {
++  return (
++    <PageLayout>
++      <h1 className="text-3xl font-bold text-emerald-800">Global Homeopathy & Ayurveda</h1>
++      <p className="mt-4 text-lg text-stone-700">
++        Discover the principles of homeopathy and the ancient wisdom of Ayurveda.
++      </p>
++    </PageLayout>
++  );
++};
++
++export default GlobalHomeopathyAyurvedaPage;
+diff --git a/src/pages/HomePage.tsx b/src/pages/HomePage.tsx
+new file mode 100644
+index 0000000..32d31b2
+--- /dev/null
++++ b/src/pages/HomePage.tsx
+@@ -0,0 +1,36 @@
++import Hero from '../components/Hero';
++import About from '../components/About';
++import Products from '../components/Products';
++import Workshops from '../components/Workshops';
++import Blog from '../components/Blog';
++import Contact from '../components/Contact';
++import { Product } from '../types';
++
++interface HomePageProps {
++  onAddToCart: (product: Product) => void;
++}
++
++const HomePage: React.FC<HomePageProps> = ({ onAddToCart }) => {
++  const scrollToSection = (id: string) => {
++    const element = document.getElementById(id);
++    if (element) {
++      element.scrollIntoView({ behavior: 'smooth' });
++    }
++  };
++
++  return (
++    <>
++      <Hero
++        onShopClick={() => scrollToSection('products')}
++        onLearnClick={() => scrollToSection('about')}
++      />
++      <About />
++      <Products onAddToCart={onAddToCart} />
++      <Workshops />
++      <Blog />
++      <Contact />
++    </>
++  );
++};
++
++export default HomePage;
+diff --git a/src/pages/MindSpiritPage.tsx b/src/pages/MindSpiritPage.tsx
+new file mode 100644
+index 0000000..43cc2f2
+--- /dev/null
++++ b/src/pages/MindSpiritPage.tsx
+@@ -0,0 +1,14 @@
++import PageLayout from './PageLayout';
++
++const MindSpiritPage = () => {
++  return (
++    <PageLayout>
++      <h1 className="text-3xl font-bold text-emerald-800">Mind & Spirit</h1>
++      <p className="mt-4 text-lg text-stone-700">
++        Resources for relaxation, sleep, and spiritual cleansing.
++      </p>
++    </PageLayout>
++  );
++};
++
++export default MindSpiritPage;
+diff --git a/src/pages/NaturalIngredientsOilsPage.tsx b/src/pages/NaturalIngredientsOilsPage.tsx
+new file mode 100644
+index 0000000..5b9b5e2
+--- /dev/null
++++ b/src/pages/NaturalIngredientsOilsPage.tsx
+@@ -0,0 +1,14 @@
++import PageLayout from './PageLayout';
++
++const NaturalIngredientsOilsPage = () => {
++  return (
++    <PageLayout>
++      <h1 className="text-3xl font-bold text-emerald-800">Natural Ingredients & Oils</h1>
++      <p className="mt-4 text-lg text-stone-700">
++        Learn about the plant parts, carrier oils, and essential oils we use in our products.
++      </p>
++    </PageLayout>
++  );
++};
++
++export default NaturalIngredientsOilsPage;
+diff --git a/src/pages/NutritionWellnessPage.tsx b/src/pages/NutritionWellnessPage.tsx
+new file mode 100644
+index 0000000..16dcf68
+--- /dev/null
++++ b/src/pages/NutritionWellnessPage.tsx
+@@ -0,0 +1,14 @@
++import PageLayout from './PageLayout';
++
++const NutritionWellnessPage = () => {
++  return (
++    <PageLayout>
++      <h1 className="text-3xl font-bold text-emerald-800">Nutrition & Wellness</h1>
++      <p className="mt-4 text-lg text-stone-700">
++        Information on herbal nutrition, gut health, and more.
++      </p>
++    </PageLayout>
++  );
++};
++
++export default NutritionWellnessPage;
+diff --git a/src/pages/PageLayout.tsx b/src/pages/PageLayout.tsx
+new file mode 100644
+index 0000000..eec4836
+--- /dev/null
++++ b/src/pages/PageLayout.tsx
+@@ -0,0 +1,17 @@
++import React from 'react';
++
++interface PageLayoutProps {
++  children: React.ReactNode;
++}
++
++const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
++  return (
++    <main className="pt-20">
++      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
++        {children}
++      </div>
++    </main>
++  );
++};
++
++export default PageLayout;
+diff --git a/src/pages/RegionAndTraditionsPage.tsx b/src/pages/RegionAndTraditionsPage.tsx
+new file mode 100644
+index 0000000..cce543c
+--- /dev/null
++++ b/src/pages/RegionAndTraditionsPage.tsx
+@@ -0,0 +1,14 @@
++import PageLayout from './PageLayout';
++
++const RegionAndTraditionsPage = () => {
++  return (
++    <PageLayout>
++      <h1 className="text-3xl font-bold text-emerald-800">Region and Traditions</h1>
++      <p className="mt-4 text-lg text-stone-700">
++        Explore the rich history and traditions of herbalism from around the world.
++      </p>
++    </PageLayout>
++  );
++};
++
++export default RegionAndTraditionsPage;
+diff --git a/src/pages/ShopPage.tsx b/src/pages/ShopPage.tsx
+new file mode 100644
+index 0000000..56cc568
+--- /dev/null
++++ b/src/pages/ShopPage.tsx
+@@ -0,0 +1,14 @@
++import PageLayout from './PageLayout';
++
++const ShopPage = () => {
++  return (
++    <PageLayout>
++      <h1 className="text-3xl font-bold text-emerald-800">Shop (Marketplace)</h1>
++      <p className="mt-4 text-lg text-stone-700">
++        Welcome to our shop. This is where you will find all of our products.
++      </p>
++    </PageLayout>
++  );
++};
++
++export default ShopPage;

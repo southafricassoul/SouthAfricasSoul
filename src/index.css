@@ -24,14 +24,4 @@
   .bg-cream-50 {
     background-color: #fefdfb;
   }
-
-  .max-h-screen-minus-header {
-    max-height: calc(100vh - 5rem);
-  }
-
-  .dropdown-menu .dropdown-menu {
-    left: 100%;
-    top: 0;
-    margin-top: -1px;
-  }
 }

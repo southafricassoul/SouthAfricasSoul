@@ -1,6 +1,6 @@
 import { ShoppingCart, Menu, X, Leaf, ChevronDown, ChevronRight, ChevronLeft } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { menuOptions } from '../lib/menuOptions';
+import { menuOptions } from '../lib/navigation';
 
 interface HeaderProps {
   cartCount: number;
