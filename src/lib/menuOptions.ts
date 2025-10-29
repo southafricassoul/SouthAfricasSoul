@@ -1,97 +1,87 @@
-const kebabCase = (str: string) => str.replace(/&/g, 'and').replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '-').toLowerCase();
+import {
+  Home,
+  BookOpen,
+  ShoppingBag,
+  Globe2,
+  Gem,
+  Leaf,
+  Flower2,
+  Heart,
+  FlaskConical,
+  Library,
+  Sprout,
+  BrainCircuit,
+  Users,
+} from "lucide-react";
 
-const generateHrefs = (items: any[], parentPath = '') => {
-  return items.map((item: any) => {
-    if (item.href && item.href.startsWith('#')) {
-      if(item.label === "🏠 Home") {
-        return { ...item, href: "/" };
-      }
-      return item;
-    }
-
-    // A more robust way to generate the path
-    const pathSegment = kebabCase(item.label);
-    const currentPath = parentPath ? `${parentPath}/${pathSegment}` : `/${pathSegment}`;
-
-    if (item.dropdown) {
-      return {
-        ...item,
-        dropdown: generateHrefs(item.dropdown, currentPath),
-      };
-    } else {
-      return {
-        ...item,
-        href: currentPath,
-      };
-    }
-  });
-};
-
-export const menuOptions = generateHrefs([
+export const menuOptions = [
   {
-    label: "🏠 Home",
-    href: "#home",
+    label: "Home",
+    icon: Home,
+    href: "/",
   },
   {
-    label: "📖 About",
+    label: "About",
+    icon: BookOpen,
     dropdown: [
-      { label: "Our Story", href: "#" },
-      { label: "Mission & Philosophy", href: "#" },
-      { label: "Contact", href: "#" },
+      { label: "Our Story", href: "/about/our-story" },
+      { label: "Mission & Philosophy", href: "/about/mission-philosophy" },
+      { label: "Contact", href: "/about/contact" },
     ],
   },
   {
-    label: "🛍️ Shop (Marketplace)",
-    disabled: true,
+    label: "Shop (Marketplace)",
+    icon: ShoppingBag,
     dropdown: [
-      { label: "Herbal Blends & Teas", href: "#" },
-      { label: "Oils (Essential & Carrier)", href: "#" },
-      { label: "Massage & Aromatherapy Kits", href: "#" },
-      { label: "DIY Kits", href: "#" },
-      { label: "Digital Products (E-books, PDFs)", href: "#" },
+      { label: "Herbal Blends & Teas", href: "/shop/herbal-blends-teas" },
+      { label: "Oils (Essential & Carrier)", href: "/shop/oils-essential-carrier" },
+      { label: "Massage & Aromatherapy Kits", href: "/shop/massage-aromatherapy-kits" },
+      { label: "DIY Kits", href: "/shop/diy-kits" },
+      { label: "Digital Products (E-books, PDFs)", href: "/shop/digital-products" },
     ],
   },
   {
-    label: "🌍 Region and Traditions",
+    label: "Region and Traditions",
+    icon: Globe2,
     dropdown: [
       {
-        label: "🌎 Global Apothecary",
+        label: "Global Apothecary",
         dropdown: [
-          { label: "European Folk Herbalism", href: "#" },
-          { label: "Chinese Medicine (TCM)", href: "#" },
-          { label: "Indigenous American", href: "#" },
-          { label: "Middle Eastern Herbalism", href: "#" },
+          { label: "European Folk Herbalism", href: "/region/global/european-folk-herbalism" },
+          { label: "Chinese Medicine (TCM)", href: "/region/global/chinese-medicine" },
+          { label: "Indigenous American", href: "/region/global/indigenous-american" },
+          { label: "Middle Eastern Herbalism", href: "/region/global/middle-eastern-herbalism" },
         ],
       },
       {
-        label: "🌍 African Herbal Apothecary",
+        label: "African Herbal Apothecary",
         dropdown: [
           {
             label: "History of African Herbalism",
             dropdown: [
-              { label: "Origins and Cultural Lineage", href: "#" },
-              { label: "Indigenous Medicinal Evolution", href: "#" },
+              { label: "Origins and Cultural Lineage", href: "/region/african/history/origins" },
+              { label: "Indigenous Medicinal Evolution", href: "/region/african/history/evolution" },
             ],
           },
           {
             label: "African Healing Traditions by Region",
             dropdown: [
-              { label: "Zulu Healing", href: "#" },
-              { label: "Xhosa Healing", href: "#" },
-              { label: "Tswana & Sotho Healing", href: "#" },
-              { label: "Yoruba Healing", href: "#" },
-              { label: "Ashanti & Akan Healing", href: "#" },
-              { label: "Berber Healing", href: "#" },
-              { label: "Nubian Healing", href: "#" },
-              { label: "Egyptian Healing", href: "#" },
-              { label: "Central & East African Healing", href: "#" },
+              { label: "Zulu Healing", href: "/region/african/traditions/zulu" },
+              { label: "Xhosa Healing", href: "/region/african/traditions/xhosa" },
+              { label: "Tswana & Sotho Healing", href: "/region/african/traditions/tswana-sotho" },
+              { label: "Yoruba Healing", href: "/region/african/traditions/yoruba" },
+              { label: "Ashanti & Akan Healing", href: "/region/african/traditions/ashanti-akan" },
+              { label: "Berber Healing", href: "/region/african/traditions/berber" },
+              { label: "Nubian Healing", href: "/region/african/traditions/nubian" },
+              { label: "Egyptian Healing", href: "/region/african/traditions/egyptian" },
+              { label: "Central & East African Healing", href: "/region/african/traditions/central-east" },
             ],
           },
           {
             label: "African Healing Tools & Rituals",
             dropdown: [
-              { label: "Implements, Ceremonial Cleansing, Divination Herbs, Smudge Traditions", href: "#" },
-              { label: "Integration of Spirituality, Song, and Medicine", href: "#" },
+              { label: "Implements & Rituals", href: "/region/african/tools/implements" },
+              { label: "Spirituality & Medicine", href: "/region/african/tools/spirituality" },
             ],
           },
         ],
@@ -99,218 +89,159 @@ export const menuOptions = generateHrefs([
     ],
   },
   {
-    label: "🕉️ Global Homeopathy & Ayurveda",
+    label: "Global Homeopathy & Ayurveda",
+    icon: Gem,
     dropdown: [
       {
         label: "Homeopathy",
         dropdown: [
-          { label: "Principles of Homeopathy", href: "#" },
-          { label: "Potency & Dilution Scales", href: "#" },
-          { label: "Common Homeopathic Remedies", href: "#" },
-          { label: "African-Adapted Homeopathic Approaches", href: "#" },
+          { label: "Principles of Homeopathy", href: "/global/homeopathy/principles" },
+          { label: "Potency & Dilution Scales", href: "/global/homeopathy/potency" },
+          { label: "Common Homeopathic Remedies", href: "/global/homeopathy/remedies" },
+          { label: "African-Adapted Homeopathic Approaches", href: "/global/homeopathy/african-adapted" },
         ],
       },
       {
         label: "Ayurveda",
         dropdown: [
-          { label: "The Three Doshas: Vata, Pitta, Kapha", href: "#" },
-          { label: "Ayurvedic Herbs & Spices", href: "#" },
-          { label: "Herbal Formulations by Dosha", href: "#" },
-          { label: "Ayurvedic Oils & Body Treatments", href: "#" },
-          { label: "Ayurvedic Massage (Abhyanga & Marma Therapy)", href: "#" },
+          { label: "The Three Doshas", href: "/global/ayurveda/doshas" },
+          { label: "Ayurvedic Herbs & Spices", href: "/global/ayurveda/herbs" },
+          { label: "Herbal Formulations by Dosha", href: "/global/ayurveda/formulations" },
+          { label: "Ayurvedic Oils & Body Treatments", href: "/global/ayurveda/oils" },
+          { label: "Ayurvedic Massage", href: "/global/ayurveda/massage" },
         ],
       },
     ],
   },
   {
-    label: "🌿 Natural Ingredients & Oils",
+    label: "Natural Ingredients & Oils",
+    icon: Leaf,
     dropdown: [
       {
         label: "Plant Parts",
         dropdown: [
-          { label: "Seeds", href: "#" },
-          { label: "Roots", href: "#" },
-          { label: "Bark", href: "#" },
-          { label: "Leaves", href: "#" },
-          { label: "Flowers", href: "#" },
-          { label: "Fruit", href: "#" },
-          { label: "Resin & Sap", href: "#" },
+          { label: "Seeds", href: "/ingredients/plant-parts/seeds" },
+          { label: "Roots", href: "/ingredients/plant-parts/roots" },
+          { label: "Bark", href: "/ingredients/plant-parts/bark" },
+          { label: "Leaves", href: "/ingredients/plant-parts/leaves" },
+          { label: "Flowers", href: "/ingredients/plant-parts/flowers" },
+          { label: "Fruit", href: "/ingredients/plant-parts/fruit" },
+          { label: "Resin & Sap", href: "/ingredients/plant-parts/resin-sap" },
         ],
       },
       {
         label: "Carrier Oils",
         dropdown: [
-            { label: "Sweet Almond Oil", href: "#" },
-            { label: "Jojoba Oil", href: "#" },
-            { label: "Coconut Oil", href: "#" },
-            { label: "Grapeseed Oil", href: "#" },
-            { label: "Argan Oil", href: "#" },
-            { label: "Castor Oil", href: "#" },
-            { label: "Avocado Oil", href: "#" },
-            { label: "Rosehip Seed Oil", href: "#" },
-            { label: "Hemp Seed Oil", href: "#" },
-            { label: "Black Seed Oil", href: "#" },
-            { label: "Tamanu Oil", href: "#" },
+          { label: "Sweet Almond Oil", href: "/ingredients/carrier-oils/sweet-almond" },
+          { label: "Jojoba Oil", href: "/ingredients/carrier-oils/jojoba" },
         ],
       },
       {
         label: "Essential Oils",
         dropdown: [
-          { label: "Lavender", href: "#" },
-          { label: "Chamomile (Roman/German)", href: "#" },
-          { label: "Rose", href: "#" },
-          { label: "Jasmine", href: "#" },
-          { label: "Ylang Ylang", href: "#" },
-          { label: "Geranium", href: "#" },
-          { label: "Eucalyptus", href: "#" },
-          { label: "Peppermint", href: "#" },
-          { label: "Tea Tree", href: "#" },
-          { label: "Rosemary", href: "#" },
-          { label: "Patchouli", href: "#" },
-          { label: "Frankincense", href: "#" },
-          { label: "Myrrh", href: "#" },
-          { label: "Sandalwood", href: "#" },
-          { label: "Lemon", href: "#" },
-          { label: "Orange (Sweet)", href: "#" },
-          { label: "Bergamot", href: "#" },
+          { label: "Lavender", href: "/ingredients/essential-oils/lavender" },
+          { label: "Chamomile", href: "/ingredients/essential-oils/chamomile" },
         ],
       },
     ],
   },
   {
-    label: "🌸 Aromatherapy & Massage Therapy",
+    label: "Aromatherapy & Massage Therapy",
+    icon: Flower2,
     dropdown: [
         {
             label: "Aromatherapy",
             dropdown: [
-                { label: "Principles of Aromatherapy", href: "#" },
-                { label: "Essential Oil Blending Guide", href: "#" },
-                { label: "Diffusion & Inhalation Methods", href: "#" },
-                { label: "Emotional & Energetic Healing", href: "#" },
-                { label: "Chakra & Mood Blends", href: "#" },
-                { label: "Safety, Dilution & Contraindications", href: "#" },
+                { label: "Principles of Aromatherapy", href: "/therapy/aromatherapy/principles" },
+                { label: "Essential Oil Blending Guide", href: "/therapy/aromatherapy/blending-guide" },
             ]
         },
         {
             label: "Massage Therapy",
             dropdown: [
-                { label: "Introduction to Therapeutic Massage", href: "#" },
+                { label: "Introduction to Therapeutic Massage", href: "/therapy/massage/introduction" },
                 {
                     label: "Massage Techniques",
                     dropdown: [
-                        { label: "Swedish Massage", href: "#" },
-                        { label: "Deep Tissue", href: "#" },
-                        { label: "Lymphatic Drainage", href: "#" },
-                        { label: "Aromatherapy Massage", href: "#" },
-                        { label: "Ayurvedic Massage (Abhyanga)", href: "#" },
+                        { label: "Swedish Massage", href: "/therapy/massage/techniques/swedish" },
+                        { label: "Deep Tissue", href: "/therapy/massage/techniques/deep-tissue" },
                     ]
                 },
-                { label: "Massage Oil Recipes", href: "#" },
-                { label: "Carrier & Essential Oil Synergies", href: "#" },
-                { label: "Body-Mind Healing & Relaxation", href: "#" },
             ]
         }
     ]
   },
   {
-    label: "💚 Benefits",
+    label: "Benefits",
+    icon: Heart,
     dropdown: [
       {
         label: "Physical",
         dropdown: [
-            { label: "Sleep Aid", href: "#" },
-            { label: "Energy & Vitality", href: "#" },
-            { label: "Weight Management", href: "#" },
-            { label: "Digestive & Gut Health", href: "#" },
-            { label: "Detox & Liver Health", href: "#" },
-            { label: "Immunity Boost", href: "#" },
+            { label: "Sleep Aid", href: "/benefits/physical/sleep-aid" },
+            { label: "Energy & Vitality", href: "/benefits/physical/energy-vitality" },
             {
                 label: "Skin Health",
                 dropdown: [
-                    { label: "Dark Mark Removal", href: "#" },
-                    { label: "Anti-Aging", href: "#" },
-                    { label: "💧 Hydration & Nourishment", href: "#" },
-                    { label: "🔥 Anti-Inflammatory & Soothing", href: "#" },
-                    { label: "✨ Brightening & Anti-Aging", href: "#" },
-                    { label: "🧴 Cleansing, Astringent & Toning", href: "#" },
-                    { label: "💆‍♀️ Calming, Soothing & Aromatherapy", href: "#" },
-                    { label: "🦠 Antibacterial & Acne Support", href: "#" },
+                    { label: "Dark Mark Removal", href: "/benefits/physical/skin-health/dark-mark-removal" },
+                    { label: "Anti-Aging", href: "/benefits/physical/skin-health/anti-aging" },
                 ]
             },
-            { label: "Hair Growth & Scalp Health", href: "#" },
-            { label: "Pain Relief & Anti-Inflammatory", href: "#" },
-            { label: "Antimicrobial & Antiviral", href: "#" },
-            { label: "Hormonal & Menstrual Health", href: "#" },
-            { label: "Circulation & Cardiovascular", href: "#" },
-            { label: "Aphrodisiac / Libido Support", href: "#" },
-            { label: "Arousal & Performance", href: "#" },
         ],
       },
       {
         label: "Emotional & Mental Health",
         dropdown: [
-            { label: "Stress Relief & Anxiety", href: "#" },
-            { label: "Focus & Memory", href: "#" },
-            { label: "Emotional Balance", href: "#" },
-            { label: "Spiritual Grounding & Cleansing", href: "#" },
+            { label: "Stress Relief & Anxiety", href: "/benefits/emotional/stress-relief" },
+            { label: "Focus & Memory", href: "/benefits/emotional/focus-memory" },
         ]
       },
     ],
   },
   {
-    label: "🧪 DIY & Recipes",
+    label: "DIY & Recipes",
+    icon: FlaskConical,
     dropdown: [
         {
             label: "Homeopathy & Apothecary",
             dropdown: [
-                { label: "African Remedies", href: "#" },
-                { label: "Global Remedies", href: "#" },
+                { label: "African Remedies", href: "/diy/apothecary/african-remedies" },
+                { label: "Global Remedies", href: "/diy/apothecary/global-remedies" },
             ]
         },
-        { label: "Teas & Tonics", href: "#" },
-        { label: "Tinctures & Extracts", href: "#" },
-        { label: "Balms & Salves", href: "#" },
-        { label: "Skin & Hair Recipes", href: "#" },
-        { label: "Massage Oils & Body Blends", href: "#" },
-        { label: "Aromatherapy Blends", href: "#" },
+        { label: "Teas & Tonics", href: "/diy/teas-tonics" },
     ]
   },
   {
-    label: "📚 Education Hub",
+    label: "Education Hub",
+    icon: Library,
     dropdown: [
-        { label: "Safety & Dosage", href: "#" },
-        { label: "Mixing Charts (Oils & Blends)", href: "#" },
-        { label: "DIY Apothecary Tutorials", href: "#" },
-        { label: "Aromatherapy & Massage Certification Guides", href: "#" },
-        { label: "Homeopathic Basics", href: "#" },
-        { label: "Ayurvedic Principles", href: "#" },
+        { label: "Safety & Dosage", href: "/education/safety-dosage" },
+        { label: "Mixing Charts", href: "/education/mixing-charts" },
     ]
   },
   {
-    label: "🍃 Nutrition & Wellness",
+    label: "Nutrition & Wellness",
+    icon: Sprout,
     dropdown: [
-        { label: "Herbal Nutrition", href: "#" },
-        { label: "Gut Health & Probiotics", href: "#" },
-        { label: "Detox & Cleansing", href: "#" },
-        { label: "Herbal Weight Management", href: "#" },
+        { label: "Herbal Nutrition", href: "/wellness/herbal-nutrition" },
+        { label: "Gut Health & Probiotics", href: "/wellness/gut-health" },
     ]
   },
   {
-    label: "🕊️ Mind & Spirit",
+    label: "Mind & Spirit",
+    icon: BrainCircuit,
     dropdown: [
-        { label: "Relaxation & Sleep", href: "#" },
-        { label: "Mood & Anxiety", href: "#" },
-        { label: "Focus & Memory", href: "#" },
-        { label: "Spiritual Cleansing", href: "#" },
-        { label: "Energy & Chakra Balancing", href: "#" },
+        { label: "Relaxation & Sleep", href: "/mind-spirit/relaxation-sleep" },
+        { label: "Mood & Anxiety", href: "/mind-spirit/mood-anxiety" },
     ]
   },
   {
-    label: "🌐 Community & Learning",
+    label: "Community & Learning",
+    icon: Users,
     dropdown: [
-        { label: "Forum / User Contributions", href: "#" },
-        { label: "Videos & Tutorials", href: "#" },
-        { label: "Events & Workshops", href: "#" },
+        { label: "Forum", href: "/community/forum" },
+        { label: "Videos & Tutorials", href: "/community/videos-tutorials" },
     ]
   }
-]);
+];
