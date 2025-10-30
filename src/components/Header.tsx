@@ -1,185 +1,52 @@
-import { ShoppingCart, Menu, X, Leaf, ChevronDown, ChevronRight, ChevronLeft } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { menuOptions } from '../lib/navigation';
+import { ShoppingCart, Menu, Leaf } from 'lucide-react';
 
 interface HeaderProps {
   cartCount: number;
   onCartClick: () => void;
+  onMenuClick: () => void;
 }
 
-const MenuItem = ({ item, mobile, closeMenu, level = 0, onSubMenuClick }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const hasDropdown = item.dropdown && item.dropdown.length > 0;
-
-  const handleClick = (e) => {
-    if (item.href && !item.href.startsWith('#')) {
-      if (mobile) closeMenu();
-      return;
-    }
-    e.preventDefault();
-    if (hasDropdown && mobile) {
-      if (onSubMenuClick) onSubMenuClick(item);
-    } else if (item.href && item.href.startsWith('#')) {
-      const targetId = item.href.substring(1);
-      const targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-      }
-      if (mobile) closeMenu();
-    }
-  };
-
-  const handleMouseEnter = () => !mobile && setIsOpen(true);
-  const handleMouseLeave = () => !mobile && setIsOpen(false);
-
-  const desktopSubMenuPosition = level === 0 ? 'left-0 mt-1' : 'left-full top-0 ml-1';
-  const Component = item.href ? 'a' : 'button';
-
+export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderProps) {
   return (
-    <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <Component
-        href={item.href || '#'}
-        onClick={handleClick}
-        className={`flex items-center justify-between w-full p-2 rounded-md text-stone-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors ${item.disabled ? 'cursor-not-allowed opacity-50' : ''}`}
-      >
-        <span className="flex items-center gap-2">
-          {item.icon && <item.icon className="w-4 h-4" />}
-          <span className="truncate">{item.label}</span>
-        </span>
-        {hasDropdown && (mobile ? <ChevronRight className="w-4 h-4" /> : <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'transform rotate-180' : ''}`} />)}
-      </Component>
-      {hasDropdown && isOpen && !mobile && (
-        <div className={`absolute ${desktopSubMenuPosition} w-64 bg-white border border-stone-200 rounded-md shadow-lg z-20`}>
-          <div className="flex flex-col p-1">
-            {item.dropdown.map(subItem => <MenuItem key={subItem.label} item={subItem} mobile={mobile} closeMenu={closeMenu} level={level + 1} onSubMenuClick={onSubMenuClick} />)}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const DesktopMenu = ({ closeMenu }) => (
-  <nav aria-label="Main navigation" className="hidden md:flex items-center gap-2">
-    {menuOptions.map(item => <MenuItem key={item.label} item={item} mobile={false} closeMenu={closeMenu} onSubMenuClick={() => {}} />)}
-  </nav>
-);
-
-const MobileMenu = ({ isOpen, closeMenu }) => {
-  const [history, setHistory] = useState([{ title: 'Menu', items: menuOptions }]);
-  const currentMenu = history[history.length - 1];
-
-  useEffect(() => {
-    if (isOpen) {
-      setHistory([{ title: 'Menu', items: menuOptions }]);
-    }
-  }, [isOpen]);
-
-  const handleSubMenuClick = (item) => {
-    if (item.dropdown) {
-      setHistory(prev => [...prev, { title: item.label, items: item.dropdown }]);
-    }
-  };
-
-  const handleBackClick = () => {
-    if (history.length > 1) {
-      setHistory(prev => prev.slice(0, -1));
-    }
-  };
-
-  return (
-    <>
-      <div className={`fixed top-0 left-0 h-full w-full max-w-md bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex justify-between items-center p-4 border-b border-stone-300">
-          <div className="flex items-center">
-            {history.length > 1 && (
-              <button onClick={handleBackClick} className="p-2 mr-2 -ml-2 text-stone-600 hover:text-stone-900" aria-label="Go back">
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-            )}
-            <h2 className="text-xl font-semibold text-stone-800">{currentMenu.title}</h2>
-          </div>
-          <button onClick={closeMenu} className="p-2 text-stone-600 hover:text-stone-900" aria-label="Close menu">
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-        <div className="overflow-y-auto p-4">
-          <nav className="flex flex-col gap-2" data-testid="main-nav">
-            {currentMenu.items.map(item => (
-              <MenuItem
-                key={item.label}
-                item={item}
-                mobile={true}
-                closeMenu={closeMenu}
-                onSubMenuClick={handleSubMenuClick}
-              />
-            ))}
-          </nav>
-        </div>
-      </div>
-      {isOpen && <div className="fixed inset-0 bg-black/30 z-40" onClick={closeMenu}></div>}
-    </>
-  );
-};
-
-export default function Header({ cartCount, onCartClick }: HeaderProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const toggleMobileMenu = () => setMobileMenuOpen(prev => !prev);
-  const closeMobileMenu = () => setMobileMenuOpen(false);
-
-  return (
-    <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-30">
+    <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <Leaf className="w-8 h-8 text-emerald-700" />
-            <div>
-              <h1 className="text-2xl font-bold text-emerald-900">SouthAfrica's Soul</h1>
-              <p className="text-xs text-amber-700 italic">Reconnect. Heal. Root Yourself.</p>
-            </div>
-          </div>
-
-          <div className="hidden md:flex items-center">
-            <DesktopMenu closeMenu={closeMobileMenu} />
+        <div className="grid grid-cols-3 items-center h-20">
+          <div className="flex justify-start">
             <button
-              onClick={onCartClick}
-              className="relative p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors ml-4"
-              aria-label={`Shopping cart with ${cartCount} items`}
-            >
-              <ShoppingCart className="w-6 h-6" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-amber-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
-            </button>
-          </div>
-
-          <div className="flex md:hidden items-center gap-4">
-            <button
-              onClick={onCartClick}
-              className="relative p-2 text-emerald-700"
-              aria-label={`Shopping cart with ${cartCount} items`}
-            >
-              <ShoppingCart className="w-6 h-6" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-amber-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
-            </button>
-            <button
-              onClick={toggleMobileMenu}
-              className="p-2 text-emerald-700"
-              aria-label={mobileMenuOpen ? 'Close main menu' : 'Open main menu'}
+              onClick={onMenuClick}
+              className="p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors"
+              aria-label="Open menu"
             >
               <Menu className="w-6 h-6" />
             </button>
           </div>
+
+          <div className="flex justify-center">
+            <div className="flex items-center gap-2 cursor-pointer" onClick={() => (window.location.href = '/')}>
+              <Leaf className="w-8 h-8 text-emerald-700" />
+              <div>
+                <h1 className="text-2xl font-bold text-emerald-900">SouthAfrica's Soul</h1>
+                <p className="text-xs text-amber-700 italic">Reconnect. Heal. Root Yourself.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-end">
+            <button
+              onClick={onCartClick}
+              className="relative p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors"
+              aria-label="Open cart"
+            >
+              <ShoppingCart className="w-6 h-6" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-amber-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
       </div>
-      <MobileMenu isOpen={mobileMenuOpen} closeMenu={closeMobileMenu} />
     </header>
   );
 }

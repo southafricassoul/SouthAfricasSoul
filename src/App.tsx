@@ -1,16 +1,28 @@
-import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Cart from './components/Cart';
+import Sidebar from './components/Sidebar';
+import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
+import ShopPage from './pages/ShopPage';
+import RegionAndTraditionsPage from './pages/RegionAndTraditionsPage';
+import GlobalHomeopathyAyurvedaPage from './pages/GlobalHomeopathyAyurvedaPage';
+import NaturalIngredientsOilsPage from './pages/NaturalIngredientsOilsPage';
+import AromatherapyMassagePage from './pages/AromatherapyMassagePage';
+import BenefitsPage from './pages/BenefitsPage';
+import DiyRecipesPage from './pages/DiyRecipesPage';
+import EducationHubPage from './pages/EducationHubPage';
+import NutritionWellnessPage from './pages/NutritionWellnessPage';
+import MindSpiritPage from './pages/MindSpiritPage';
+import CommunityLearningPage from './pages/CommunityLearningPage';
 import type { CartItem, Product } from './types';
-import Home from './pages/HomePage';
-import OurStory from "./pages/AboutPage";
-// ... import all other pages
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleAddToCart = (product: Product) => {
     setCartItems(prevItems => {
@@ -36,30 +48,68 @@ function App() {
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
+  useEffect(() => {
+    const handlePopState = () => {
+      setIsMenuOpen(false);
+    };
+
+    if (isMenuOpen) {
+      window.history.pushState({ menu: 'open' }, '');
+      window.addEventListener('popstate', handlePopState);
+    } else {
+      if (window.history.state?.menu === 'open') {
+        window.history.back();
+      }
+    }
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isMenuOpen]);
+
+  const handleMenuClose = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
-    <Router>
-      <div className="min-h-screen bg-cream-50">
-        <Header
-          cartCount={cartCount}
-          onCartClick={() => setIsCartOpen(true)}
-        />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home onAddToCart={handleAddToCart} />} />
-            <Route path="/about/our-story" element={<OurStory />} />
-            {/* ... add all other routes */}
-          </Routes>
-        </main>
-        <Footer />
-        <Cart
-          isOpen={isCartOpen}
-          onClose={() => setIsCartOpen(false)}
-          items={cartItems}
-          onUpdateQuantity={handleUpdateQuantity}
-          onRemove={handleRemoveItem}
-        />
-      </div>
-    </Router>
+    <div className="min-h-screen bg-cream-50">
+      <Header
+        cartCount={cartCount}
+        onCartClick={() => setIsCartOpen(true)}
+        onMenuClick={() => setIsMenuOpen(true)}
+      />
+
+      <Sidebar
+        isOpen={isMenuOpen}
+        onClose={handleMenuClose}
+      />
+
+      <Routes>
+        <Route path="/" element={<HomePage onAddToCart={handleAddToCart} />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/shop" element={<ShopPage />} />
+        <Route path="/region-and-traditions" element={<RegionAndTraditionsPage />} />
+        <Route path="/global-homeopathy-ayurveda" element={<GlobalHomeopathyAyurvedaPage />} />
+        <Route path="/natural-ingredients-oils" element={<NaturalIngredientsOilsPage />} />
+        <Route path="/aromatherapy-massage" element={<AromatherapyMassagePage />} />
+        <Route path="/benefits" element={<BenefitsPage />} />
+        <Route path="/diy-recipes" element={<DiyRecipesPage />} />
+        <Route path="/education-hub" element={<EducationHubPage />} />
+        <Route path="/nutrition-wellness" element={<NutritionWellnessPage />} />
+        <Route path="/mind-spirit" element={<MindSpiritPage />} />
+        <Route path="/community-learning" element={<CommunityLearningPage />} />
+      </Routes>
+
+      <Footer />
+
+      <Cart
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        items={cartItems}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemove={handleRemoveItem}
+      />
+    </div>
   );
 }
 

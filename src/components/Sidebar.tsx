@@ -8,20 +8,27 @@ interface SidebarProps {
   onClose: () => void;
 }
 
+interface HistoryItem {
+  items: NavigationItem[];
+  title: string;
+}
+
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
-  const [history, setHistory] = useState<NavigationItem[][]>([navigationData]);
+  const [history, setHistory] = useState<HistoryItem[]>([{ items: navigationData, title: 'Menu' }]);
 
   useEffect(() => {
     if (isOpen) {
-      setHistory([navigationData]);
+      setHistory([{ items: navigationData, title: 'Menu' }]);
     }
   }, [isOpen]);
 
-  const currentLevelItems = history[history.length - 1];
+  const currentLevel = history[history.length - 1];
   const canGoBack = history.length > 1;
 
-  const handleNextLevel = (items: NavigationItem[]) => {
-    setHistory([...history, items]);
+  const handleNextLevel = (item: NavigationItem) => {
+    if (item.children) {
+      setHistory([...history, { items: item.children, title: item.name }]);
+    }
   };
 
   const handleBack = () => {
@@ -36,7 +43,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     <li key={item.name} className="border-b border-stone-200">
       {item.children ? (
         <button
-          onClick={() => handleNextLevel(item.children!)}
+          onClick={() => handleNextLevel(item)}
           className="w-full flex justify-between items-center p-4 text-lg text-stone-800 hover:bg-stone-100 transition-colors"
         >
           {item.name}
@@ -78,7 +85,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           ) : (
             <div /> // Placeholder for alignment
           )}
-          <h2 className="text-xl font-semibold text-stone-800">Menu</h2>
+          <h2 className="text-xl font-semibold text-stone-800">{currentLevel.title}</h2>
           <button onClick={onClose} className="p-2 text-stone-600 hover:text-black">
             <X className="w-6 h-6" />
           </button>
@@ -86,7 +93,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
         <div className="overflow-y-auto h-[calc(100vh-65px)]">
           <ul className="divide-y divide-stone-200">
-            {currentLevelItems.map(renderMenuItem)}
+            {currentLevel.items.map(renderMenuItem)}
           </ul>
         </div>
       </div>
