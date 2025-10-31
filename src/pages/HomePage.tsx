@@ -1,3 +1,4 @@
+import React from 'react';
 import Hero from '../components/Hero';
 import About from '../components/About';
 import Products from '../components/Products';
@@ -11,6 +12,13 @@ interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = ({ onAddToCart }) => {
+import type { Product } from '../types';
+
+interface HomeProps {
+  onAddToCart: (product: Product) => void;
+}
+
+const Home: React.FC<HomeProps> = ({ onAddToCart }) => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -34,3 +42,4 @@ const HomePage: React.FC<HomePageProps> = ({ onAddToCart }) => {
 };
 
 export default HomePage;
+export default Home;
