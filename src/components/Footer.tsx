@@ -101,7 +101,7 @@ export default function Footer() {
 
         <div className="border-t border-emerald-700 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-emerald-200 text-sm">
-            &copy; 2025 SouthAfrica's Soul. All rights reserved.
+            &copy; 1992 SouthAfrica's Soul. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm">
             <a href="#" className="text-emerald-200 hover:text-amber-400 transition-colors">
