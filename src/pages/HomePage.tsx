@@ -5,20 +5,13 @@ import Products from '../components/Products';
 import Workshops from '../components/Workshops';
 import Blog from '../components/Blog';
 import Contact from '../components/Contact';
-import { Product } from '../types';
+import type { Product } from '../types';
 
 interface HomePageProps {
   onAddToCart: (product: Product) => void;
 }
 
 const HomePage: React.FC<HomePageProps> = ({ onAddToCart }) => {
-import type { Product } from '../types';
-
-interface HomeProps {
-  onAddToCart: (product: Product) => void;
-}
-
-const Home: React.FC<HomeProps> = ({ onAddToCart }) => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -42,4 +35,3 @@ const Home: React.FC<HomeProps> = ({ onAddToCart }) => {
 };
 
 export default HomePage;
-export default Home;
