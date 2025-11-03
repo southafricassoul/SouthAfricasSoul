@@ -75,7 +75,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-cream-50 dark:bg-stone-900">
       <Header
         cartCount={cartCount}
         onCartClick={() => setIsCartOpen(true)}
