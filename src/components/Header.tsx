@@ -21,10 +21,7 @@ export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderPr
             >
               <Menu className="w-6 h-6" />
             </button>
-            <div className="flex items-center gap-2 cursor-pointer" onClick={() => (window.location.href = '/')}>
-              <Leaf className="w-8 h-8 text-emerald-700 dark:text-emerald-400" />
-              <h1 className="text-2xl font-bold text-emerald-900 dark:text-emerald-50 sm:hidden">Soul</h1>
-            </div>
+            <h1 className="text-2xl font-bold text-emerald-900 dark:text-emerald-50 sm:hidden" onClick={() => (window.location.href = '/')}>Soul</h1>
           </div>
 
           {/* Center Section: Logo and Site Title */}
