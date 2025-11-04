@@ -11,9 +11,9 @@ export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderPr
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 dark:bg-stone-900/95 dark:shadow-stone-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-3 items-center h-24">
+        <div className="relative flex justify-center items-center h-24">
           {/* Left Section: Menu Button */}
-          <div className="flex justify-start items-center">
+          <div className="absolute left-4 flex items-center">
             <button
               onClick={onMenuClick}
               className="p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors dark:text-emerald-400 dark:hover:bg-stone-800"
@@ -24,21 +24,28 @@ export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderPr
           </div>
 
           {/* Center Section: Logo, Title, and Theme Slider */}
-          <div className="flex justify-center">
-            <div className="flex flex-col items-center cursor-pointer" onClick={() => (window.location.href = '/')}>
+          <div className="flex flex-col items-center">
+            <div
+              className="flex flex-col items-center cursor-pointer"
+              onClick={() => (window.location.href = '/')}
+            >
               <div className="flex items-center gap-2">
                 <Leaf className="w-7 h-7 text-emerald-700 dark:text-emerald-400" />
-                <h1 className="text-xl sm:text-2xl font-bold text-emerald-900 dark:text-emerald-50">SouthAfrica's Soul</h1>
+                <h1 className="text-xl sm:text-2xl font-bold text-emerald-900 dark:text-emerald-50">
+                  SouthAfrica's Soul
+                </h1>
               </div>
-              <p className="text-xs text-amber-700 italic dark:text-amber-400 mt-1">Reconnect. Heal. Root Yourself.</p>
-              <div className="mt-2">
-                <ThemeSlider />
-              </div>
+              <p className="text-xs text-amber-700 italic dark:text-amber-400 mt-1">
+                Reconnect. Heal. Root Yourself.
+              </p>
+            </div>
+            <div className="mt-2">
+              <ThemeSlider />
             </div>
           </div>
 
           {/* Right Section: Cart Button */}
-          <div className="flex justify-end items-center gap-2">
+          <div className="absolute right-4 flex items-center gap-2">
             <button
               onClick={onCartClick}
               className="relative p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors dark:text-emerald-400 dark:hover:bg-stone-800"
