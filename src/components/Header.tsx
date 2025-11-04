@@ -26,16 +26,16 @@ export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderPr
           {/* Center Section: Logo, Title, and Theme Slider */}
           <div className="flex flex-col items-center">
             <div
-              className="flex flex-col items-center cursor-pointer"
+              className="cursor-pointer"
               onClick={() => (window.location.href = '/')}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex justify-center items-center gap-2">
                 <Leaf className="w-7 h-7 text-emerald-700 dark:text-emerald-400" />
                 <h1 className="text-xl sm:text-2xl font-bold text-emerald-900 dark:text-emerald-50">
                   SouthAfrica's Soul
                 </h1>
               </div>
-              <p className="text-xs text-amber-700 italic dark:text-amber-400 mt-1">
+              <p className="text-xs text-amber-700 italic dark:text-amber-400 mt-1 text-center">
                 Reconnect. Heal. Root Yourself.
               </p>
             </div>
