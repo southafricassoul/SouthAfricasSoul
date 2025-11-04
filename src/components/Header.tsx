@@ -21,11 +21,14 @@ export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderPr
             >
               <Menu className="w-6 h-6" />
             </button>
-            <div className="flex flex-col items-center sm:hidden">
-              <h1 className="text-2xl font-bold text-emerald-900 dark:text-emerald-50" onClick={() => (window.location.href = '/')}>
-                Soul
-              </h1>
-              <ThemeSlider />
+            <div className="flex flex-col items-center sm:hidden cursor-pointer" onClick={() => (window.location.href = '/')}>
+              <div className="text-center">
+                <h1 className="text-base font-bold text-emerald-900 dark:text-emerald-50">SouthAfrica's Soul</h1>
+                <p className="text-xs text-amber-700 italic dark:text-amber-400">Reconnect. Heal. Root Yourself.</p>
+              </div>
+              <div className="mt-1">
+                <ThemeSlider />
+              </div>
             </div>
           </div>
 
