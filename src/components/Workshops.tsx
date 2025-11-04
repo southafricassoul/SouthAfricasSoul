@@ -51,12 +51,12 @@ export default function Workshops() {
   };
 
   return (
-    <section id="workshops" className="py-24 bg-gradient-to-b from-emerald-50 to-white">
+    <section id="workshops" className="py-24 bg-gradient-to-b from-emerald-50 to-white dark:from-stone-900 dark:to-stone-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-emerald-900 mb-4">Workshops & Experiences</h2>
+          <h2 className="text-4xl sm:text-5xl font-bold text-emerald-900 dark:text-cream-50 mb-4">Workshops & Experiences</h2>
           <div className="w-24 h-1 bg-amber-600 mx-auto rounded-full mb-6" />
-          <p className="text-lg text-stone-600 max-w-2xl mx-auto">
+          <p className="text-lg text-stone-600 dark:text-stone-300 max-w-2xl mx-auto">
             Join us for hands-on learning experiences that connect you with traditional healing wisdom
           </p>
         </div>
@@ -65,7 +65,7 @@ export default function Workshops() {
           {mockWorkshops.map(workshop => (
             <div
               key={workshop.id}
-              className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow overflow-hidden border border-emerald-100"
+              className="bg-white dark:bg-stone-800 rounded-xl shadow-lg hover:shadow-2xl transition-shadow overflow-hidden border border-emerald-100 dark:border-stone-700"
             >
               <div className="h-48 bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-800 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-20">
@@ -79,34 +79,34 @@ export default function Workshops() {
               </div>
 
               <div className="p-8">
-                <h3 className="text-2xl font-bold text-emerald-900 mb-3">
+                <h3 className="text-2xl font-bold text-emerald-900 dark:text-cream-50 mb-3">
                   {workshop.title}
                 </h3>
-                <p className="text-stone-600 mb-6 leading-relaxed">
+                <p className="text-stone-600 dark:text-stone-300 mb-6 leading-relaxed">
                   {workshop.description}
                 </p>
 
                 <div className="space-y-3 mb-6">
-                  <div className="flex items-center gap-3 text-stone-700">
+                  <div className="flex items-center gap-3 text-stone-700 dark:text-stone-300">
                     <Calendar className="w-5 h-5 text-emerald-600" />
                     <span>{formatDate(workshop.date)}</span>
                   </div>
-                  <div className="flex items-center gap-3 text-stone-700">
+                  <div className="flex items-center gap-3 text-stone-700 dark:text-stone-300">
                     <Clock className="w-5 h-5 text-emerald-600" />
                     <span>{workshop.duration}</span>
                   </div>
-                  <div className="flex items-center gap-3 text-stone-700">
+                  <div className="flex items-center gap-3 text-stone-700 dark:text-stone-300">
                     <Users className="w-5 h-5 text-emerald-600" />
                     <span>{workshop.spots} spots available</span>
                   </div>
-                  <div className="flex items-center gap-3 text-stone-700">
+                  <div className="flex items-center gap-3 text-stone-700 dark:text-stone-300">
                     <MapPin className="w-5 h-5 text-emerald-600" />
                     <span>Cape Town, South Africa</span>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-6 border-t border-stone-200">
-                  <span className="text-3xl font-bold text-amber-700">
+                <div className="flex items-center justify-between pt-6 border-t border-stone-200 dark:border-stone-700">
+                  <span className="text-3xl font-bold text-amber-700 dark:text-amber-500">
                     R{workshop.price}
                   </span>
                   <button className="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-3 rounded-lg font-semibold transition-all transform hover:scale-105">
