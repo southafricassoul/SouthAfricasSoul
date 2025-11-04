@@ -1,5 +1,5 @@
 import { ShoppingCart, Menu, Leaf } from 'lucide-react';
-import DarkModeToggle from './DarkModeToggle';
+import ThemeSlider from './ThemeSlider';
 
 interface HeaderProps {
   cartCount: number;
@@ -11,7 +11,7 @@ export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderPr
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 dark:bg-stone-900/95 dark:shadow-stone-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 sm:grid-cols-3 items-center h-20">
+        <div className="grid grid-cols-2 sm:grid-cols-3 items-center h-24">
           {/* Left Section: Menu Button and Logo */}
           <div className="flex justify-start items-center gap-4">
             <button
@@ -21,23 +21,35 @@ export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderPr
             >
               <Menu className="w-6 h-6" />
             </button>
-            <h1 className="text-2xl font-bold text-emerald-900 dark:text-emerald-50 sm:hidden" onClick={() => (window.location.href = '/')}>Soul</h1>
+            <div className="flex flex-col items-center sm:hidden cursor-pointer" onClick={() => (window.location.href = '/')}>
+              <div className="text-center">
+                <h1 className="text-base font-bold text-emerald-900 dark:text-emerald-50">SouthAfrica's Soul</h1>
+                <p className="text-xs text-amber-700 italic dark:text-amber-400">Reconnect. Heal. Root Yourself.</p>
+              </div>
+              <div className="mt-1">
+                <ThemeSlider />
+              </div>
+            </div>
           </div>
 
           {/* Center Section: Logo and Site Title */}
           <div className="hidden sm:flex justify-center">
-            <div className="flex items-center gap-2 cursor-pointer" onClick={() => (window.location.href = '/')}>
+            <div className="flex items-start gap-2 cursor-pointer" onClick={() => (window.location.href = '/')}>
               <Leaf className="w-8 h-8 text-emerald-700 dark:text-emerald-400" />
-              <div>
-                <h1 className="text-2xl font-bold text-emerald-900 dark:text-emerald-50">SouthAfrica's Soul</h1>
-                <p className="text-xs text-amber-700 italic dark:text-amber-400">Reconnect. Heal. Root Yourself.</p>
+              <div className="flex flex-col items-center">
+                <div>
+                  <h1 className="text-2xl font-bold text-emerald-900 dark:text-emerald-50">SouthAfrica's Soul</h1>
+                  <p className="text-xs text-amber-700 italic dark:text-amber-400">Reconnect. Heal. Root Yourself.</p>
+                </div>
+                <div className="mt-2">
+                  <ThemeSlider />
+                </div>
               </div>
             </div>
           </div>
 
           {/* Right Section: Cart Button */}
           <div className="flex justify-end items-center gap-2">
-            <DarkModeToggle />
             <button
               onClick={onCartClick}
               className="relative p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors dark:text-emerald-400 dark:hover:bg-stone-800"
