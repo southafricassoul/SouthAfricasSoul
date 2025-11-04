@@ -143,18 +143,18 @@ export default function Products({ onAddToCart }: ProductsProps) {
   };
 
   return (
-    <section id="products" className="py-24 bg-white dark:bg-stone-900">
+    <section id="products" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-emerald-900 dark:text-cream-50 mb-4">Our Products</h2>
+          <h2 className="text-4xl sm:text-5xl font-bold text-emerald-900 mb-4">Our Products</h2>
           <div className="w-24 h-1 bg-amber-600 mx-auto rounded-full mb-6" />
-          <p className="text-lg text-stone-600 dark:text-stone-300 max-w-2xl mx-auto">
+          <p className="text-lg text-stone-600 max-w-2xl mx-auto">
             Explore our curated collection of indigenous remedies, organic skincare, and plants for your wellness journey
           </p>
         </div>
 
         <div className="flex items-center gap-4 mb-12 overflow-x-auto pb-4">
-          <Filter className="w-5 h-5 text-stone-600 dark:text-stone-400 flex-shrink-0" />
+          <Filter className="w-5 h-5 text-stone-600 flex-shrink-0" />
           {categories.map(cat => (
             <button
               key={cat.id}
@@ -162,7 +162,7 @@ export default function Products({ onAddToCart }: ProductsProps) {
               className={`px-6 py-2 rounded-full font-medium transition-all whitespace-nowrap ${
                 selectedCategory === cat.id
                   ? 'bg-emerald-700 text-white shadow-lg'
-                  : 'bg-stone-100 text-stone-700 hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700'
+                  : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
               }`}
             >
               {cat.label}
@@ -174,7 +174,7 @@ export default function Products({ onAddToCart }: ProductsProps) {
           {filteredProducts.map(product => (
             <div
               key={product.id}
-              className="group bg-white dark:bg-stone-800 rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-stone-200 dark:border-stone-700"
+              className="group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-stone-200"
             >
               <div className={`h-48 bg-gradient-to-br ${getProductGradient(product.category)} flex items-center justify-center relative overflow-hidden`}>
                 <div className="absolute inset-0 opacity-20">
@@ -186,14 +186,14 @@ export default function Products({ onAddToCart }: ProductsProps) {
               </div>
 
               <div className="p-6">
-                <h3 className="text-xl font-bold text-emerald-900 dark:text-cream-50 mb-2 group-hover:text-emerald-700 dark:group-hover:text-amber-400 transition-colors">
+                <h3 className="text-xl font-bold text-emerald-900 mb-2 group-hover:text-emerald-700 transition-colors">
                   {product.name}
                 </h3>
-                <p className="text-stone-600 dark:text-stone-300 text-sm mb-4 leading-relaxed">
+                <p className="text-stone-600 text-sm mb-4 leading-relaxed">
                   {product.description}
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-amber-700 dark:text-amber-500">
+                  <span className="text-2xl font-bold text-amber-700">
                     R{product.price}
                   </span>
                   <button

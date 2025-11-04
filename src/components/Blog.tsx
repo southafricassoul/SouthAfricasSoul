@@ -47,12 +47,12 @@ export default function Blog() {
   };
 
   return (
-    <section id="blog" className="py-24 bg-cream-50 dark:bg-stone-900">
+    <section id="blog" className="py-24 bg-cream-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-emerald-900 dark:text-cream-50 mb-4">Knowledge & Stories</h2>
+          <h2 className="text-4xl sm:text-5xl font-bold text-emerald-900 mb-4">Knowledge & Stories</h2>
           <div className="w-24 h-1 bg-amber-600 mx-auto rounded-full mb-6" />
-          <p className="text-lg text-stone-600 dark:text-stone-300 max-w-2xl mx-auto">
+          <p className="text-lg text-stone-600 max-w-2xl mx-auto">
             Explore articles about indigenous herbs, traditional recipes, plant care, and wellness wisdom
           </p>
         </div>
@@ -61,7 +61,7 @@ export default function Blog() {
           {mockPosts.map(post => (
             <article
               key={post.id}
-              className="bg-white dark:bg-stone-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group cursor-pointer border border-stone-200 dark:border-stone-700"
+              className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group cursor-pointer border border-stone-200"
             >
               <div className="h-56 bg-gradient-to-br from-emerald-600 to-teal-700 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-30">
@@ -80,14 +80,14 @@ export default function Blog() {
               </div>
 
               <div className="p-8">
-                <div className="text-sm text-stone-500 dark:text-stone-400 mb-3">{formatDate(post.date)}</div>
-                <h3 className="text-2xl font-bold text-emerald-900 dark:text-cream-50 mb-3 group-hover:text-emerald-700 dark:group-hover:text-amber-400 transition-colors">
+                <div className="text-sm text-stone-500 mb-3">{formatDate(post.date)}</div>
+                <h3 className="text-2xl font-bold text-emerald-900 mb-3 group-hover:text-emerald-700 transition-colors">
                   {post.title}
                 </h3>
-                <p className="text-stone-600 dark:text-stone-300 mb-6 leading-relaxed">
+                <p className="text-stone-600 mb-6 leading-relaxed">
                   {post.excerpt}
                 </p>
-                <button className="flex items-center gap-2 text-emerald-700 hover:text-emerald-800 dark:text-amber-500 dark:hover:text-amber-400 font-semibold group-hover:gap-3 transition-all">
+                <button className="flex items-center gap-2 text-emerald-700 hover:text-emerald-800 font-semibold group-hover:gap-3 transition-all">
                   Read More
                   <ArrowRight className="w-5 h-5" />
                 </button>

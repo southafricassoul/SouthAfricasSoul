@@ -14,12 +14,12 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 bg-gradient-to-b from-white to-emerald-50 dark:from-stone-900 dark:to-stone-900">
+    <section id="contact" className="py-24 bg-gradient-to-b from-white to-emerald-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-emerald-900 dark:text-cream-50 mb-4">Get in Touch</h2>
+          <h2 className="text-4xl sm:text-5xl font-bold text-emerald-900 mb-4">Get in Touch</h2>
           <div className="w-24 h-1 bg-amber-600 mx-auto rounded-full mb-6" />
-          <p className="text-lg text-stone-600 dark:text-stone-300 max-w-2xl mx-auto">
+          <p className="text-lg text-stone-600 max-w-2xl mx-auto">
             Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
           </p>
         </div>
@@ -27,40 +27,40 @@ export default function Contact() {
         <div className="grid md:grid-cols-2 gap-12">
           <div className="space-y-8">
             <div>
-              <h3 className="text-2xl font-bold text-emerald-900 dark:text-amber-400 mb-6">Contact Information</h3>
+              <h3 className="text-2xl font-bold text-emerald-900 mb-6">Contact Information</h3>
 
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6 text-emerald-700 dark:text-emerald-400" />
+                  <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-6 h-6 text-emerald-700" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-emerald-900 dark:text-cream-50 mb-1">Email</h4>
-                    <a href="mailto:hello@southafricassoul.co.za" className="text-stone-600 dark:text-stone-300 hover:text-emerald-700 dark:hover:text-amber-400 transition-colors">
+                    <h4 className="font-semibold text-emerald-900 mb-1">Email</h4>
+                    <a href="mailto:hello@southafricassoul.co.za" className="text-stone-600 hover:text-emerald-700 transition-colors">
                       hello@southafricassoul.co.za
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-emerald-700 dark:text-emerald-400" />
+                  <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Phone className="w-6 h-6 text-emerald-700" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-emerald-900 dark:text-cream-50 mb-1">Phone / WhatsApp</h4>
-                    <a href="tel:+27123456789" className="text-stone-600 dark:text-stone-300 hover:text-emerald-700 dark:hover:text-amber-400 transition-colors">
+                    <h4 className="font-semibold text-emerald-900 mb-1">Phone / WhatsApp</h4>
+                    <a href="tel:+27123456789" className="text-stone-600 hover:text-emerald-700 transition-colors">
                       +27 12 345 6789
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-emerald-700 dark:text-emerald-400" />
+                  <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-6 h-6 text-emerald-700" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-emerald-900 dark:text-cream-50 mb-1">Location</h4>
-                    <p className="text-stone-600 dark:text-stone-300">
+                    <h4 className="font-semibold text-emerald-900 mb-1">Location</h4>
+                    <p className="text-stone-600">
                       123 Heritage Lane<br />
                       Cape Town, 8001<br />
                       South Africa
@@ -71,7 +71,7 @@ export default function Contact() {
             </div>
 
             <div>
-              <h3 className="text-2xl font-bold text-emerald-900 dark:text-amber-400 mb-6">Follow Us</h3>
+              <h3 className="text-2xl font-bold text-emerald-900 mb-6">Follow Us</h3>
               <div className="flex gap-4">
                 <a
                   href="https://instagram.com"
@@ -101,7 +101,7 @@ export default function Contact() {
                 <input
                   type="email"
                   placeholder="Your email"
-                  className="flex-1 px-4 py-2 rounded-lg text-stone-900 dark:bg-stone-800 dark:text-cream-50 dark:placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="flex-1 px-4 py-2 rounded-lg text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
                 <button
                   type="submit"
@@ -114,12 +114,12 @@ export default function Contact() {
           </div>
 
           <div>
-            <form onSubmit={handleSubmit} className="bg-white dark:bg-stone-800 rounded-xl shadow-lg p-8 border border-emerald-100 dark:border-stone-700">
-              <h3 className="text-2xl font-bold text-emerald-900 dark:text-cream-50 mb-6">Send us a Message</h3>
+            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-8 border border-emerald-100">
+              <h3 className="text-2xl font-bold text-emerald-900 mb-6">Send us a Message</h3>
 
               <div className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">
+                  <label htmlFor="name" className="block text-sm font-semibold text-stone-700 mb-2">
                     Name
                   </label>
                   <input
@@ -127,13 +127,13 @@ export default function Contact() {
                     id="name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-700 text-stone-900 dark:text-cream-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-stone-300 bg-white text-stone-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     required
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">
+                  <label htmlFor="email" className="block text-sm font-semibold text-stone-700 mb-2">
                     Email
                   </label>
                   <input
@@ -141,13 +141,13 @@ export default function Contact() {
                     id="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-700 text-stone-900 dark:text-cream-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-stone-300 bg-white text-stone-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     required
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-semibold text-stone-700 dark:text-stone-300 mb-2">
+                  <label htmlFor="message" className="block text-sm font-semibold text-stone-700 mb-2">
                     Message
                   </label>
                   <textarea
@@ -155,7 +155,7 @@ export default function Contact() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     rows={6}
-                    className="w-full px-4 py-3 border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-700 text-stone-900 dark:text-cream-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none"
+                    className="w-full px-4 py-3 border border-stone-300 bg-white text-stone-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none"
                     required
                   />
                 </div>

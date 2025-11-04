@@ -38,11 +38,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   };
 
   const renderMenuItem = (item: NavigationItem) => (
-    <li key={item.name} className="border-b border-stone-200 dark:border-stone-700">
+    <li key={item.name} className="border-b border-stone-200">
       {item.children ? (
         <button
           onClick={() => handleNextLevel(item.children!, item.name)} // Pass item.name
-          className="w-full flex justify-between items-center p-4 text-lg text-stone-800 hover:bg-stone-100 transition-colors dark:text-stone-200 dark:hover:bg-stone-800"
+          className="w-full flex justify-between items-center p-4 text-lg text-stone-800 hover:bg-stone-100 transition-colors"
         >
           {item.name}
           <span>&rarr;</span>
@@ -51,7 +51,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         <Link
           to={item.href || '#'}
           onClick={handleNavigate}
-          className="block p-4 text-lg text-stone-800 hover:bg-stone-100 transition-colors dark:text-stone-200 dark:hover:bg-stone-800"
+          className="block p-4 text-lg text-stone-800 hover:bg-stone-100 transition-colors"
         >
           {item.name}
         </Link>
@@ -73,26 +73,26 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       <div
         className={`fixed top-0 left-0 h-full w-full sm:max-w-md bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
-        } dark:bg-stone-900`}
+        }`}
       >
-        <div className="flex justify-between items-center p-4 border-b border-stone-300 dark:border-stone-700">
+        <div className="flex justify-between items-center p-4 border-b border-stone-300">
           {canGoBack ? (
-            <button onClick={handleBack} className="p-2 text-stone-600 hover:text-black dark:text-stone-400 dark:hover:text-white">
+            <button onClick={handleBack} className="p-2 text-stone-600 hover:text-black">
               <ChevronLeft className="w-6 h-6" />
             </button>
           ) : (
             <div /> // Placeholder for alignment
           )}
-          <h2 className="text-xl font-semibold text-stone-800 dark:text-stone-200">
+          <h2 className="text-xl font-semibold text-stone-800">
             {levelNames.length > 0 ? levelNames[levelNames.length - 1] : 'Menu'}
           </h2>
-          <button onClick={onClose} className="p-2 text-stone-600 hover:text-black dark:text-stone-400 dark:hover:text-white">
+          <button onClick={onClose} className="p-2 text-stone-600 hover:text-black">
             <X className="w-6 h-6" />
           </button>
         </div>
 
         <div className="overflow-y-auto h-[calc(100vh-65px)]">
-          <ul className="divide-y divide-stone-200 dark:divide-stone-700">
+          <ul className="divide-y divide-stone-200">
             {currentLevelItems.map(renderMenuItem)}
           </ul>
         </div>
