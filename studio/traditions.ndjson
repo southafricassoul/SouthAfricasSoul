@@ -1,0 +1,9 @@
+{"createIfNotExists": {"_id": "region-african", "_type": "region", "name": "African"}}
+{"createIfNotExists": {"_id": "tradition-zulu", "_type": "tradition", "name": "Zulu Healing", "origin": {"_type": "reference", "_ref": "region-african"}}}
+{"createIfNotExists": {"_id": "tradition-xhosa", "_type": "tradition", "name": "Xhosa Healing", "origin": {"_type": "reference", "_ref": "region-african"}}}
+{"createIfNotExists": {"_id": "tradition-tswana-sotho", "_type": "tradition", "name": "Tswana & Sotho Healing", "origin": {"_type": "reference", "_ref": "region-african"}}}
+{"createIfNotExists": {"_id": "tradition-yoruba", "_type": "tradition", "name": "Yoruba Healing", "origin": {"_type": "reference", "_ref": "region-african"}}}
+{"createIfNotExists": {"_id": "tradition-ashanti-akan", "_type": "tradition", "name": "Ashanti & Akan Healing", "origin": {"_type": "reference", "_ref": "region-african"}}}
+{"createIfNotExists": {"_id": "tradition-berber", "_type": "tradition", "name": "Berber Healing", "origin": {"_type": "reference", "_ref": "region-african"}}}
+{"createIfNotExists": {"_id": "tradition-nubian", "_type": "tradition", "name": "Nubian Healing", "origin": {"_type": "reference", "_ref": "region-african"}}}
+{"createIfNotExists": {"_id": "tradition-egyptian", "_type": "tradition", "name": "Egyptian Healing", "origin": {"_type": "reference", "_ref": "region-african"}}}
