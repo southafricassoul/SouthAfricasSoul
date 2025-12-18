@@ -7,6 +7,7 @@ import benefit from './benefit'
 import remedy from './remedy'
 import region from './region'
 import tradition from './tradition'
+import tribe from './tribe'
 import modality from './modality'
 import product from './product'
 import category from './category'
@@ -26,6 +27,7 @@ export const schemaTypes = [
   remedy,
   region,
   tradition,
+  tribe,
   modality,
   product,
   category,
