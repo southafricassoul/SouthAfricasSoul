@@ -1,5 +1,6 @@
 import { ShoppingCart, Menu, Leaf } from 'lucide-react';
 import ThemeSlider from './ThemeSlider';
+import Search from './Search';
 
 interface HeaderProps {
   cartCount: number;
@@ -46,8 +47,9 @@ export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderPr
             </div>
           </div>
 
-          {/* Right Section: Cart Button */}
-          <div className="absolute right-4 flex items-center gap-2">
+          {/* Right Section: Search and Cart Button */}
+          <div className="absolute right-4 flex items-center gap-4">
+            <Search />
             <button
               onClick={onCartClick}
               className="relative p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors dark:text-emerald-400 dark:hover:bg-stone-800"
