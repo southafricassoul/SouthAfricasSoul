@@ -84,7 +84,7 @@
           justify-content: center;
           box-shadow: 0 4px 20px rgba(10,31,68,.3), 0 0 0 0 rgba(2,128,144,.4);
           animation: launcherpulse 3s infinite;
-          z-index: 9999;
+          z-index: 40;
           transition: transform .15s;
         }
         .fm-launcher:hover { transform: scale(1.08); }
@@ -112,7 +112,7 @@
             background: white;
             border-radius: 24px;
             box-shadow: 0 8px 48px rgba(10,31,68,0.18);
-            z-index: 9998;
+            z-index: 40;
             overflow: hidden;
             display: none;
             flex-direction: column;
@@ -142,7 +142,7 @@
   <script src="/src/main.tsx" type="module">
   </script>
   <!-- FM Assist Chat Widget -->
-  <div id="chat-widget" style="position: fixed; bottom: 20px; right: 20px; width: 350px; height: 500px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: flex; flex-direction: column; overflow: hidden; font-family: sans-serif; z-index: 1000;">
+  <div id="chat-widget" style="position: fixed; bottom: 20px; right: 20px; width: 350px; height: 500px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: flex; flex-direction: column; overflow: hidden; font-family: sans-serif; z-index: 40;">
    <div id="chat-header" style="background: #007bff; color: white; padding: 15px; font-weight: bold; text-align: center;">
     FM Assist Chatbot
    </div>

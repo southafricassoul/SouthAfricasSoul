@@ -17,10 +17,10 @@ export default function Cart({ isOpen, onClose, items, onUpdateQuantity, onRemov
   return (
     <>
       <div
-        className="fixed inset-0 bg-black/50 z-50 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/50 z-[110] backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="fixed right-0 top-0 h-full w-full sm:w-96 bg-white shadow-2xl z-50 flex flex-col">
+      <div className="fixed right-0 top-0 h-full w-full sm:w-96 bg-white shadow-2xl z-[120] flex flex-col">
         <div className="flex items-center justify-between p-6 border-b border-stone-200">
           <div className="flex items-center gap-3">
             <ShoppingCart className="w-6 h-6 text-emerald-700" />

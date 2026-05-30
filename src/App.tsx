@@ -17,6 +17,10 @@ import EducationHubPage from './pages/EducationHubPage';
 import NutritionWellnessPage from './pages/NutritionWellnessPage';
 import MindSpiritPage from './pages/MindSpiritPage';
 import CommunityLearningPage from './pages/CommunityLearningPage';
+import ContactPage from './pages/ContactPage';
+import FmAssistPage from './pages/FmAssistPage';
+import ServicesPage from './pages/ServicesPage';
+import WebsiteGuidePage from './pages/WebsiteGuidePage';
 import type { CartItem, Product } from './types';
 
 function App() {
@@ -101,6 +105,10 @@ function App() {
         <Route path="/nutrition-wellness" element={<NutritionWellnessPage />} />
         <Route path="/mind-spirit" element={<MindSpiritPage />} />
         <Route path="/community-learning" element={<CommunityLearningPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/fm-assist" element={<FmAssistPage />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/website-guide" element={<WebsiteGuidePage />} />
       </Routes>
 
       <Footer />

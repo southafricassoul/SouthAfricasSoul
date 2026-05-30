@@ -63,7 +63,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     <>
       {/* Overlay */}
       <div
-        className={`fixed inset-0 bg-black/50 z-50 transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-black/50 z-[110] transition-opacity duration-300 ${
           isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={onClose}
@@ -71,7 +71,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
       {/* Sidebar Panel */}
       <div
-        className={`fixed top-0 left-0 h-full w-full sm:max-w-md bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 h-full w-full sm:max-w-md bg-white z-[120] shadow-2xl transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } dark:bg-stone-900`}
       >

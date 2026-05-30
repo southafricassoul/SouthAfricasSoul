@@ -10,11 +10,11 @@ interface HeaderProps {
 
 export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderProps) {
   return (
-    <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 dark:bg-stone-900/95 dark:shadow-stone-800">
+    <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-[100] dark:bg-stone-900/95 dark:shadow-stone-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative flex justify-center items-center h-24">
+        <div className="flex justify-between items-center h-24">
           {/* Left Section: Menu Button */}
-          <div className="absolute left-4 flex items-center">
+          <div className="flex items-center">
             <button
               onClick={onMenuClick}
               className="p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors dark:text-emerald-400 dark:hover:bg-stone-800"
@@ -31,12 +31,12 @@ export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderPr
               onClick={() => (window.location.href = '/')}
             >
               <div className="flex justify-center items-center gap-2">
-                <Leaf className="w-7 h-7 text-emerald-700 dark:text-emerald-400" />
-                <div className="flex flex-col">
-                  <h1 className="text-xl sm:text-2xl font-bold text-emerald-900 dark:text-emerald-50">
+                <Leaf className="w-8 h-8 text-emerald-700 dark:text-emerald-400" />
+                <div className="flex flex-col items-start min-w-[200px]">
+                  <h1 className="text-xl sm:text-2xl font-bold text-emerald-900 dark:text-emerald-50 leading-tight">
                     SouthAfrica's Soul
                   </h1>
-                  <p className="text-xs text-amber-700 italic dark:text-amber-400 mt-1">
+                  <p className="text-[11px] sm:text-xs text-amber-700 italic dark:text-amber-400 mt-1">
                     Reconnect. Heal. Root Yourself.
                   </p>
                 </div>
@@ -48,12 +48,14 @@ export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderPr
           </div>
 
           {/* Right Section: Search and Cart Button */}
-          <div className="absolute right-4 flex items-center gap-4">
-            <Search />
+          <div className="flex items-center gap-4">
+            <div className="hidden lg:block">
+              <Search />
+            </div>
             <button
               onClick={onCartClick}
-              className="relative p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors dark:text-emerald-400 dark:hover:bg-stone-800"
               aria-label="Open cart"
+              className="relative p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors dark:text-emerald-400 dark:hover:bg-stone-800"
             >
               <ShoppingCart className="w-6 h-6" />
               {cartCount > 0 && (
