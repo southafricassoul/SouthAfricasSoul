@@ -24,12 +24,15 @@ export default defineType({
       name: 'image',
       title: 'Image',
       type: 'image',
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
       name: 'region',
       title: 'Region',
-      type: 'reference',
-      to: {type: 'region'},
+      type: 'array',
+      of: [{type: 'reference', to: {type: 'region'}}],
     }),
     defineField({
       name: 'plantParts',
@@ -76,6 +79,9 @@ export default defineType({
       name: 'potency',
       title: 'Potency',
       type: 'string',
+      options: {
+        list: ['Low', 'Medium', 'High'],
+      },
     }),
   ],
 })

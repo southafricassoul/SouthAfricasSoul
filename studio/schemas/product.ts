@@ -21,6 +21,16 @@ export default defineType({
       type: 'text',
     }),
     defineField({
+      name: 'image',
+      title: 'Image',
+      type: 'string',
+    }),
+    defineField({
+      name: 'inStock',
+      title: 'In Stock',
+      type: 'boolean',
+    }),
+    defineField({
       name: 'category',
       title: 'Category',
       type: 'reference',

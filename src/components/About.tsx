@@ -1,11 +1,49 @@
 import { Heart, Leaf, Users } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import sanityClient from '../lib/sanityClient';
+
+interface AboutUsContent {
+  title: string;
+  content: string;
+}
 
 export default function About() {
+  const [aboutUsContent, setAboutUsContent] = useState<AboutUsContent | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const data = await sanityClient.fetch(
+          `*[_type == "staticPage" && slug.current == "about-us"][0]`
+        );
+        setAboutUsContent(data);
+      } catch {
+        setError('Failed to fetch content');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchContent();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <section id="about" className="py-24 bg-cream-50 dark:bg-stone-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-emerald-900 dark:text-cream-50 mb-4">Our Story</h2>
+          <h2 className="text-4xl sm:text-5xl font-bold text-emerald-900 dark:text-cream-50 mb-4">
+            {aboutUsContent?.title || 'Our Story'}
+          </h2>
           <div className="w-24 h-1 bg-amber-600 mx-auto rounded-full" />
         </div>
 
@@ -15,13 +53,7 @@ export default function About() {
               Honoring South African Heritage
             </h3>
             <p className="text-lg text-stone-700 dark:text-stone-300 leading-relaxed">
-              SouthAfrica's Soul was born from a deep reverence for the land and the ancient wisdom passed down through generations. We believe in the healing power of indigenous plants and the importance of reconnecting with our roots.
-            </p>
-            <p className="text-lg text-stone-700 dark:text-stone-300 leading-relaxed">
-              Our journey began with a simple mission: to preserve and share the traditional knowledge of South African herbalism, making it accessible to modern seekers of natural wellness. Every product we offer is a testament to the rich botanical heritage of our land.
-            </p>
-            <p className="text-lg text-stone-700 dark:text-stone-300 leading-relaxed">
-              We source our herbs ethically, work directly with local growers, and ensure that every remedy honors both the earth and the traditions it comes from.
+              {aboutUsContent?.content}
             </p>
           </div>
 
