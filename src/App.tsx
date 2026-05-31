@@ -17,6 +17,7 @@ import EducationHubPage from './pages/EducationHubPage';
 import NutritionWellnessPage from './pages/NutritionWellnessPage';
 import MindSpiritPage from './pages/MindSpiritPage';
 import CommunityLearningPage from './pages/CommunityLearningPage';
+import SubItemPage from './pages/SubItemPage';
 import type { CartItem, Product } from './types';
 
 function App() {
@@ -101,6 +102,7 @@ function App() {
         <Route path="/nutrition-wellness" element={<NutritionWellnessPage />} />
         <Route path="/mind-spirit" element={<MindSpiritPage />} />
         <Route path="/community-learning" element={<CommunityLearningPage />} />
+        <Route path="/*" element={<SubItemPage />} />
       </Routes>
 
       <Footer />
