@@ -7,16 +7,6 @@ import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ShopPage from './pages/ShopPage';
-import RegionAndTraditionsPage from './pages/RegionAndTraditionsPage';
-import GlobalHomeopathyAyurvedaPage from './pages/GlobalHomeopathyAyurvedaPage';
-import NaturalIngredientsOilsPage from './pages/NaturalIngredientsOilsPage';
-import AromatherapyMassagePage from './pages/AromatherapyMassagePage';
-import BenefitsPage from './pages/BenefitsPage';
-import DiyRecipesPage from './pages/DiyRecipesPage';
-import EducationHubPage from './pages/EducationHubPage';
-import NutritionWellnessPage from './pages/NutritionWellnessPage';
-import MindSpiritPage from './pages/MindSpiritPage';
-import CommunityLearningPage from './pages/CommunityLearningPage';
 import SubItemPage from './pages/SubItemPage';
 import type { CartItem, Product } from './types';
 
@@ -92,16 +82,6 @@ function App() {
         <Route path="/" element={<HomePage onAddToCart={handleAddToCart} />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/shop" element={<ShopPage />} />
-        <Route path="/region-and-traditions" element={<RegionAndTraditionsPage />} />
-        <Route path="/global-homeopathy-ayurveda" element={<GlobalHomeopathyAyurvedaPage />} />
-        <Route path="/natural-ingredients-oils" element={<NaturalIngredientsOilsPage />} />
-        <Route path="/aromatherapy-massage" element={<AromatherapyMassagePage />} />
-        <Route path="/benefits" element={<BenefitsPage />} />
-        <Route path="/diy-recipes" element={<DiyRecipesPage />} />
-        <Route path="/education-hub" element={<EducationHubPage />} />
-        <Route path="/nutrition-wellness" element={<NutritionWellnessPage />} />
-        <Route path="/mind-spirit" element={<MindSpiritPage />} />
-        <Route path="/community-learning" element={<CommunityLearningPage />} />
         <Route path="/*" element={<SubItemPage />} />
       </Routes>
 
