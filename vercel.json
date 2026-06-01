@@ -3,15 +3,20 @@
   "rewrites": [
     {
       "source": "/api/chat",
-      "destination": "/api/chat.cjs"
+      "destination": "/api/index.js"
     },
     {
       "source": "/api/webhook/whatsapp",
-      "destination": "/api/webhook/whatsapp.cjs"
+      "destination": "/api/webhook/whatsapp.js"
     },
     {
       "source": "/api/webhook/telegram",
-      "destination": "/api/webhook/telegram.cjs"
+      "destination": "/api/webhook/telegram.js"
     }
-  ]
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "vercel-node@latest"
+    }
+  }
 }
