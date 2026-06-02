@@ -440,6 +440,7 @@ body {
     </div>
   </div>
 
+<script src="/fm-logic.js"></script>
 <script>
 // ── Configuration ─────────────────────────────────────────────────────
 const BACKEND_URL = '/api/chat';
@@ -447,6 +448,7 @@ const WIDGET_SECRET = 'FM_ASSIST_SECRET';
 
 // ── Session ────────────────────────────────────────────────────────────
 const SESSION_ID = 'web_' + Math.random().toString(36).slice(2, 9);
+const CLIENT_SESSION = { history: [], media: [], lastActive: Date.now() };
 let isBusy = false;
 
 // ── Add message to UI ──────────────────────────────────────────────────
@@ -578,9 +580,25 @@ async function fmSend() {
   document.getElementById('fm-send-btn').disabled = true;
   showTyping();
 
+  let reply;
   try {
-    const reply = await callBackend(text);
-    hideTyping();
+    reply = await callBackend(text);
+  } catch (e) {
+    console.warn('Backend unavailable, falling back to local logic:', e);
+    console.log('window.FM_LOGIC status:', !!window.FM_LOGIC);
+    if (window.FM_LOGIC) {
+      reply = await window.FM_LOGIC.getLogicResponse(SESSION_ID, text, CLIENT_SESSION);
+      if (typeof reply === 'string' && !reply.includes('offline mode')) {
+          reply = "⚠️ *Operating in offline mode (Backend unreachable)*\n\n" + reply;
+      }
+    } else {
+      reply = 'Connection error. Please try again in a moment. (Logic engine failed to load)';
+    }
+  }
+
+  hideTyping();
+
+  if (reply) {
     // Extract quick-select options from numbered lists in reply
     const optionMatches = [...reply.matchAll(/^\s*(\d+)\.\s+(.+)$/gm)];
     const opts = optionMatches.length >= 2 && optionMatches.length <= 8
@@ -588,9 +606,6 @@ async function fmSend() {
       : [];
     addMsg(reply, 'bot', opts);
     setQuick(getQuickSuggestions(reply));
-  } catch (e) {
-    hideTyping();
-    addMsg('Connection error. Please try again in a moment.', 'bot');
   }
 
   isBusy = false;
