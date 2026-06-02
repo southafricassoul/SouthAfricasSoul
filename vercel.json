@@ -1,21 +1,24 @@
 {
   "version": 2,
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/chat",
-      "destination": "/api/chat.cjs"
+      "src": "/api/chat",
+      "dest": "/api/chat.cjs"
     },
     {
-      "source": "/api/webhook/whatsapp",
-      "destination": "/api/webhook/whatsapp.cjs"
+      "src": "/api/webhook/whatsapp",
+      "dest": "/api/webhook/whatsapp.cjs"
     },
     {
-      "source": "/api/webhook/telegram",
-      "destination": "/api/webhook/telegram.cjs"
+      "src": "/api/webhook/telegram",
+      "dest": "/api/webhook/telegram.cjs"
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ]
 }
