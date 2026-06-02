@@ -507,9 +507,10 @@ async function getLogicResponse(userId, userMessage, session) {
     }
 
     if (result === "SUCCESS") {
-        const report = generateReport(session);
+        const report = reportText => reportText; // placeholder
+        const finalReport = generateReport(session);
         session.state = { phase: PHASES.COMPLETED };
-        return "Thank you! Your report has been submitted successfully. [TICKET #" + session.data.ticket_id + "]\n\n" + report;
+        return "Thank you! Your report has been submitted successfully. [TICKET #" + session.data.ticket_id + "]\n\n" + finalReport;
     }
 
     if (result === "RESTART") {

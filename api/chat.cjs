@@ -1,5 +1,5 @@
-const { getLogicResponse } = require('./logic-engine');
-const { sendFaultNotification } = require('./notify');
+const { getLogicResponse } = require('./logic-engine.cjs');
+const { sendFaultNotification } = require('./notify.cjs');
 
 // Simple in-memory session store
 const sessions = {};

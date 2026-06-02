@@ -588,9 +588,6 @@ async function fmSend() {
     console.log('window.FM_LOGIC status:', !!window.FM_LOGIC);
     if (window.FM_LOGIC) {
       reply = await window.FM_LOGIC.getLogicResponse(SESSION_ID, text, CLIENT_SESSION);
-      if (typeof reply === 'string' && !reply.includes('offline mode')) {
-          reply = "⚠️ *Operating in offline mode (Backend unreachable)*\n\n" + reply;
-      }
     } else {
       reply = 'Connection error. Please try again in a moment. (Logic engine failed to load)';
     }
