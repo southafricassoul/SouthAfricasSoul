@@ -523,10 +523,4 @@ async function getLogicResponse(userId, userMessage, session) {
     return getNextQuestion(session);
 }
 
-// Universal export for Node and Browser
-const FM_LOGIC = { getLogicResponse, PHASES };
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = FM_LOGIC;
-} else {
-    window.FM_LOGIC = FM_LOGIC;
-}
+module.exports = { getLogicResponse, PHASES };
