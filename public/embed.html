@@ -440,7 +440,7 @@ body {
     </div>
   </div>
 
-<script src="/fm-logic.js"></script>
+<script src="fm-logic.js"></script>
 <script>
 // ── Configuration ─────────────────────────────────────────────────────
 const BACKEND_URL = '/api/chat';
@@ -448,8 +448,8 @@ const WIDGET_SECRET = 'FM_ASSIST_SECRET';
 
 // ── Session ────────────────────────────────────────────────────────────
 const SESSION_ID = 'web_' + Math.random().toString(36).slice(2, 9);
-const CLIENT_SESSION = { history: [], media: [], lastActive: Date.now() };
 let isBusy = false;
+let localSession = { state: null, data: {} };
 
 // ── Add message to UI ──────────────────────────────────────────────────
 function addMsg(text, type, options = []) {
@@ -584,12 +584,11 @@ async function fmSend() {
   try {
     reply = await callBackend(text);
   } catch (e) {
-    console.warn('Backend unavailable, falling back to local logic:', e);
-    console.log('window.FM_LOGIC status:', !!window.FM_LOGIC);
+    console.warn("Backend unavailable, falling back to local logic engine.");
     if (window.FM_LOGIC) {
-      reply = await window.FM_LOGIC.getLogicResponse(SESSION_ID, text, CLIENT_SESSION);
+      reply = await window.FM_LOGIC.getLogicResponse(SESSION_ID, text, localSession);
     } else {
-      reply = 'Connection error. Please try again in a moment. (Logic engine failed to load)';
+      reply = 'Connection error and local engine not loaded. Please try again in a moment.';
     }
   }
 

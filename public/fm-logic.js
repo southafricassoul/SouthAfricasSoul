@@ -507,10 +507,9 @@ async function getLogicResponse(userId, userMessage, session) {
     }
 
     if (result === "SUCCESS") {
-        const report = reportText => reportText; // placeholder
-        const finalReport = generateReport(session);
+        const report = generateReport(session);
         session.state = { phase: PHASES.COMPLETED };
-        return "Thank you! Your report has been submitted successfully. [TICKET #" + session.data.ticket_id + "]\n\n" + finalReport;
+        return "Thank you! Your report has been submitted successfully. [TICKET #" + session.data.ticket_id + "]\n\n" + report;
     }
 
     if (result === "RESTART") {
@@ -524,10 +523,8 @@ async function getLogicResponse(userId, userMessage, session) {
     return getNextQuestion(session);
 }
 
-// Universal export for Node and Browser
-const FM_LOGIC = { getLogicResponse, PHASES };
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = FM_LOGIC;
+    module.exports = { getLogicResponse, PHASES };
 } else {
-    window.FM_LOGIC = FM_LOGIC;
+    window.FM_LOGIC = { getLogicResponse, PHASES };
 }

@@ -1,46 +1,33 @@
 import { test, expect } from '@playwright/test';
+import path from 'path';
 
-const BASE_URL = 'http://localhost:5174';
+test.describe('Chatbot Local Fallback', () => {
+  test('should respond using local logic engine when API fails', async ({ page }) => {
+    // Mock API failure
+    await page.route('**/api/chat', route => route.abort('failed'));
 
-test('chatbot fallback works when backend is missing', async ({ page }) => {
-  await page.route('**/api/chat', route => route.abort('failed'));
-  await page.goto(`${BASE_URL}/embed.html`);
+    // Go to the embed page
+    const filePath = path.resolve('public/embed.html');
+    await page.goto(`file://${filePath}`);
 
-  await expect(page.locator('.fm-msg.bot').first()).toContainText('Good day');
+    // Wait for the greeting
+    await expect(page.locator('.fm-msg.bot').first()).toContainText('Good day');
 
-  await page.fill('#fm-input', 'Log a fault');
-  await page.click('#fm-send-btn');
+    // Type a message
+    await page.fill('#fm-input', 'Log a fault');
+    await page.click('#fm-send-btn');
 
-  // The local engine will skip the introduction if it sees 'Log a fault'
-  // Or it will just respond to the input.
-  await expect(page.locator('.fm-msg.bot').nth(1)).toContainText('store or branch name', { timeout: 10000 });
-});
+    // Check for response (it should be from local logic)
+    // The first question after "Log a fault" is store name
+    await expect(page.locator('.fm-msg.bot').last()).toContainText('store or branch name');
 
-test('chatbot handles diagnostic flow correctly', async ({ page }) => {
-  await page.route('**/api/chat', route => route.abort('failed'));
-  await page.goto(`${BASE_URL}/embed.html`);
+    // Continue the flow
+    await page.fill('#fm-input', 'Test Store');
+    await page.click('#fm-send-btn');
+    await expect(page.locator('.fm-msg.bot').last()).toContainText('full name');
 
-  // First bot message is index 0
-  await expect(page.locator('.fm-msg.bot').nth(0)).toContainText('Good day');
-
-  // Input: Log a fault (to start the identification phase)
-  await page.fill('#fm-input', 'Log a fault');
-  await page.click('#fm-send-btn');
-
-  // Bot should ask for Store (index 1)
-  await expect(page.locator('.fm-msg.bot').nth(1)).toContainText('store or branch name');
-
-  // Input: Test Store
-  await page.fill('#fm-input', 'Test Store');
-  await page.click('#fm-send-btn');
-
-  // Bot should ask for Name (index 2)
-  await expect(page.locator('.fm-msg.bot').nth(2)).toContainText('full name');
-
-  // Input: Jules
-  await page.fill('#fm-input', 'Jules');
-  await page.click('#fm-send-btn');
-
-  // Bot should ask for Category (index 3)
-  await expect(page.locator('.fm-msg.bot').nth(3)).toContainText('equipment category');
+    await page.fill('#fm-input', 'John Doe');
+    await page.click('#fm-send-btn');
+    await expect(page.locator('.fm-msg.bot').last()).toContainText('equipment category');
+  });
 });
