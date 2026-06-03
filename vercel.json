@@ -12,11 +12,10 @@
     {
       "source": "/api/webhook/telegram",
       "destination": "/api/webhook/telegram.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
-  ],
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "vercel-node@latest"
-    }
-  }
+  ]
 }
