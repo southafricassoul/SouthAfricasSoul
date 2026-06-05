@@ -6,6 +6,10 @@ export interface NavigationItem {
 
 export const navigationData: NavigationItem[] = [
   {
+    name: '🤖 Facilities Chatbot',
+    href: '/facilities-chatbot',
+  },
+  {
     name: '📖 About',
     href: '/about',
     children: [
