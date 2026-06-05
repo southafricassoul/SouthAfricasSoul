@@ -42,8 +42,8 @@ export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderPr
                   <h1 className="text-xl sm:text-2xl font-bold text-emerald-900 dark:text-emerald-50">
                     SouthAfrica's Soul
                   </h1>
-                  <p className="text-xs text-amber-700 italic dark:text-amber-400 mt-1">
-                    Reconnect. Heal. Root Yourself.
+                  <p className={`text-xs text-amber-700 italic dark:text-amber-400 mt-1 ${isChatbotPage ? 'text-center' : ''}`}>
+                    {isChatbotPage ? 'Reconnect' : 'Reconnect. Heal. Root Yourself.'}
                   </p>
                 </div>
               </div>
