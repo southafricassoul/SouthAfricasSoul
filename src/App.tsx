@@ -7,6 +7,7 @@ import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ShopPage from './pages/ShopPage';
+import FacilitiesChatbotPage from './pages/FacilitiesChatbotPage';
 import SubItemPage from './pages/SubItemPage';
 import type { CartItem, Product } from './types';
 
@@ -82,6 +83,7 @@ function App() {
         <Route path="/" element={<HomePage onAddToCart={handleAddToCart} />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/shop" element={<ShopPage />} />
+        <Route path="/facilities-chatbot" element={<FacilitiesChatbotPage />} />
         <Route path="/*" element={<SubItemPage />} />
       </Routes>
 
