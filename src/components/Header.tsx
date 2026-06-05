@@ -1,4 +1,5 @@
 import { ShoppingCart, Menu, Leaf } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import ThemeSlider from './ThemeSlider';
 import Search from './Search';
 
@@ -9,19 +10,24 @@ interface HeaderProps {
 }
 
 export default function Header({ cartCount, onCartClick, onMenuClick }: HeaderProps) {
+  const location = useLocation();
+  const isChatbotPage = location.pathname === '/facilities-chatbot';
+
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 dark:bg-stone-900/95 dark:shadow-stone-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative flex justify-center items-center h-24">
           {/* Left Section: Menu Button */}
           <div className="absolute left-4 flex items-center">
-            <button
-              onClick={onMenuClick}
-              className="p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors dark:text-emerald-400 dark:hover:bg-stone-800"
-              aria-label="Open menu"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
+            {!isChatbotPage && (
+              <button
+                onClick={onMenuClick}
+                className="p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors dark:text-emerald-400 dark:hover:bg-stone-800"
+                aria-label="Open menu"
+              >
+                <Menu className="w-6 h-6" />
+              </button>
+            )}
           </div>
 
           {/* Center Section: Logo, Title, and Theme Slider */}
