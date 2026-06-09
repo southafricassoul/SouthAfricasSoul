@@ -72,7 +72,7 @@ export default function Search() {
   return (
     <div className="relative flex items-center">
       {/* Desktop Search Bar */}
-      <div className="hidden md:block relative w-64">
+      <div className="hidden lg:block relative w-64">
         <input
           type="text"
           placeholder="Search remedies, traditions..."
@@ -89,19 +89,23 @@ export default function Search() {
       </div>
 
       {/* Mobile Search Toggle */}
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <button
           onClick={toggleSearch}
-          className="p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors dark:text-emerald-400 dark:hover:bg-stone-800"
+          className="p-1 xs:p-2 text-emerald-700 hover:bg-emerald-50 rounded-full transition-colors dark:text-emerald-400 dark:hover:bg-stone-800"
           aria-label="Toggle search"
         >
-          {isExpanded ? <X className="w-6 h-6" /> : <SearchIcon className="w-6 h-6" />}
+          {isExpanded ? (
+            <X className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6" />
+          ) : (
+            <SearchIcon className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6" />
+          )}
         </button>
       </div>
 
       {/* Mobile Search Overlay */}
       {isExpanded && (
-        <div className="fixed inset-x-0 top-0 z-50 p-4 bg-white dark:bg-stone-900 border-b shadow-lg md:hidden">
+        <div className="fixed inset-x-0 top-0 z-50 p-4 bg-white dark:bg-stone-900 border-b shadow-lg lg:hidden">
           <div className="relative">
             <input
               type="text"
@@ -145,7 +149,7 @@ export default function Search() {
 
       {/* Desktop Results Dropdown */}
       {!isExpanded && (
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           {results.length > 0 && (
             <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-lg border z-50 dark:bg-stone-800 dark:border-stone-700">
               <ul>
